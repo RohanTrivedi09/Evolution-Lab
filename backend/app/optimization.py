@@ -92,14 +92,18 @@ class OptimizationResult:
 
 
 class Optimizer:
-    def __init__(self, problem: Problem, weights: Weights, seed: int, params: dict):
-        self.problem, self.weights, self.rng, self.params = problem, weights, random.Random(seed), params
+    def __init__(self, problem: Problem, weights: Weights, seed: int, params: dict, progress_callback: Callable | None = None):
+        self.problem, self.weights, self.rng, self.params, self.progress_callback = problem, weights, random.Random(seed), params, progress_callback
         self.evaluations = 0
     def score(self, c): self.evaluations += 1; return self.problem.evaluate(c, self.weights)
-    def history_point(self, iteration, score, average=None, **extra):
+    def history_point(self, iteration, score, average=None, candidate=None, **extra):
         item={"iteration":iteration,"best_cost":score.total_cost,"best_fitness":score.normalized_fitness,"hard_violations":score.hard_violations}
         if average is not None: item["average_cost"] = average
+        if candidate is not None:
+            item["schedule"] = {s.id:{"day":self.problem.dataset.days[a.day],"period":self.problem.dataset.periods[a.period],"room_id":a.room} for s,a in zip(self.problem.sessions,candidate)}
         item.update(extra); return item
+    def emit(self, item):
+        if self.progress_callback: self.progress_callback(item)
     def run(self) -> OptimizationResult: raise NotImplementedError
     def mutate(self, candidate):
         child=[a.copy() for a in candidate]; i=self.rng.randrange(len(child)); child[i]=self.problem.random_candidate(self.rng)[i]; return child
@@ -114,7 +118,7 @@ class LocalSearch(Optimizer):
             accept=delta <= 0 or (self.params.get("mode")=="sa" and self.rng.random() < math.exp(-delta/max(temperature,.0001)))
             if accept: current,current_score=candidate,candidate_score; accepted += int(delta > 0)
             if current_score.total_cost < best_score.total_cost: best,best_score=[a.copy() for a in current],current_score
-            history.append(self.history_point(iteration,best_score,temperature=temperature,accepted_worse_moves=accepted)); temperature*=cooling
+            point=self.history_point(iteration,best_score,candidate=best,temperature=temperature,accepted_worse_moves=accepted); history.append(point); self.emit(point); temperature*=cooling
         return OptimizationResult(best,best_score,history,self.evaluations,(time.perf_counter()-start)*1000)
 
 
@@ -124,7 +128,7 @@ class GeneticAlgorithm(Optimizer):
         for generation in range(generations):
             scores=[self.score(c) for c in pop]; index=min(range(size),key=lambda i:scores[i].total_cost)
             if best is None or scores[index].total_cost < best[1].total_cost: best=([a.copy() for a in pop[index]],scores[index])
-            history.append(self.history_point(generation,best[1],sum(s.total_cost for s in scores)/len(scores),population_diversity=len({tuple((a.day,a.period,a.room) for a in c) for c in pop})))
+            point=self.history_point(generation,best[1],sum(s.total_cost for s in scores)/len(scores),candidate=best[0],population_diversity=len({tuple((a.day,a.period,a.room) for a in c) for c in pop})); history.append(point); self.emit(point)
             next_pop=[best[0]]
             while len(next_pop)<size:
                 parent=min(self.rng.sample(pop, min(3,len(pop))),key=lambda c:self.problem.evaluate(c,self.weights).total_cost); child=[a.copy() for a in parent]
@@ -147,14 +151,13 @@ class ParticleSwarm(Optimizer):
                 score=self.score(p)
                 if score.total_cost<personal[i][1].total_cost: personal[i]=([a.copy() for a in p],score)
                 if score.total_cost<global_best[1].total_cost: global_best=([a.copy() for a in p],score)
-            history.append(self.history_point(iteration,global_best[1],sum(s.total_cost for _,s in personal)/size))
+            point=self.history_point(iteration,global_best[1],sum(s.total_cost for _,s in personal)/size,candidate=global_best[0],swarm_diversity=len({tuple((a.day,a.period,a.room) for a in p) for p in particles})); history.append(point); self.emit(point)
         return OptimizationResult(global_best[0],global_best[1],history,self.evaluations,(time.perf_counter()-start)*1000)
 
 
-def optimizer_for(name, problem, weights, seed, params):
-    if name == "hill_climbing": params={**params,"mode":"hc"}; return LocalSearch(problem,weights,seed,params)
-    if name == "simulated_annealing": params={**params,"mode":"sa"}; return LocalSearch(problem,weights,seed,params)
-    if name == "genetic_algorithm": return GeneticAlgorithm(problem,weights,seed,params)
-    if name == "particle_swarm": return ParticleSwarm(problem,weights,seed,params)
+def optimizer_for(name, problem, weights, seed, params, progress_callback=None):
+    if name == "hill_climbing": params={**params,"mode":"hc"}; return LocalSearch(problem,weights,seed,params,progress_callback)
+    if name == "simulated_annealing": params={**params,"mode":"sa"}; return LocalSearch(problem,weights,seed,params,progress_callback)
+    if name == "genetic_algorithm": return GeneticAlgorithm(problem,weights,seed,params,progress_callback)
+    if name == "particle_swarm": return ParticleSwarm(problem,weights,seed,params,progress_callback)
     raise ValueError(name)
-

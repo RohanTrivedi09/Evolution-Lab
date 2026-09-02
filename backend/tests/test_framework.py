@@ -19,6 +19,7 @@ def test_strategies_return_same_contract(problem, name):
     result = optimizer_for(name, problem, Weights(), 42, {"iterations": 3, "generations": 3, "population_size": 5, "swarm_size": 5}).run()
     assert len(result.candidate) == len(problem.sessions)
     assert len(result.history) == 3
+    assert result.history[0]["schedule"]
     assert result.score.total_cost >= 0
     assert result.evaluations > 0
 
@@ -27,4 +28,3 @@ def test_seeded_strategy_is_reproducible(problem):
     second = optimizer_for("hill_climbing", problem, Weights(), 7, {"iterations": 5}).run()
     assert first.score.as_dict() == second.score.as_dict()
     assert [(a.day, a.period, a.room) for a in first.candidate] == [(a.day, a.period, a.room) for a in second.candidate]
-

@@ -29,7 +29,11 @@ def validate(request: ValidateRequest): return {"valid":True,"sessions":sum(c.se
 def execute(run_id, request):
     record=runs[run_id]; record["status"]="running"
     try:
-        problem=Problem(load_dataset(request.dataset_id)); optimizer=optimizer_for(request.algorithm,problem,request.weights,request.seed,request.parameters); result=optimizer.run()
+        problem=Problem(load_dataset(request.dataset_id))
+        def progress(point):
+            record["progress"] = point["iteration"] + 1
+            record["latest"] = point
+        optimizer=optimizer_for(request.algorithm,problem,request.weights,request.seed,request.parameters,progress); result=optimizer.run()
         record.update({"status":"completed","result":result.as_dict(problem),"progress":100})
     except Exception as exc: record.update({"status":"failed","error":str(exc)})
 
