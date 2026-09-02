@@ -22,3 +22,16 @@ def test_run_contract():
     assert result["status"] == "completed"
     assert "score" in result["result"] and "history" in result["result"]
 
+def test_comparison_contract():
+    response = client.post("/api/comparisons", json={"parameters":{"iterations":1}})
+    assert response.status_code == 200
+    comparison_id = response.json()["comparison_id"]
+    import time
+    for _ in range(60):
+        result = client.get(f"/api/comparisons/{comparison_id}").json()
+        if result["status"] == "completed":
+            break
+        time.sleep(.03)
+    assert result["status"] == "completed"
+    assert len(result["runs"]) == 4
+    assert all("result" in item for item in result["runs"])
