@@ -1,0 +1,20 @@
+{
+  "name": "Small College Demo", "description": "A compact dataset for live demonstrations.",
+  "days": ["Mon", "Tue", "Wed", "Thu", "Fri"],
+  "periods": ["09:00", "10:00", "11:00", "13:00", "14:00"],
+  "rooms": [{"id":"R101","capacity":60,"type":"lecture"},{"id":"R102","capacity":45,"type":"lecture"},{"id":"LAB1","capacity":40,"type":"lab"}],
+  "faculty": [
+    {"id":"F01","name":"Dr. Rao","unavailable":[{"day":"Fri","period":"14:00"}]},
+    {"id":"F02","name":"Dr. Mehta","unavailable":[{"day":"Mon","period":"09:00"}]},
+    {"id":"F03","name":"Dr. Sen","unavailable":[]}
+  ],
+  "groups": [{"id":"CSE-A","size":38},{"id":"CSE-B","size":32}],
+  "courses": [
+    {"id":"CS301","name":"Soft Computing","faculty_id":"F01","group_ids":["CSE-A"],"sessions_per_week":2,"duration":1,"room_type":"lecture","preferred_periods":[{"day":"Tue","period":"10:00"}]},
+    {"id":"CS302","name":"Algorithms","faculty_id":"F02","group_ids":["CSE-A","CSE-B"],"sessions_per_week":2,"duration":1,"room_type":"lecture","preferred_periods":[{"day":"Wed","period":"09:00"}]},
+    {"id":"CS303","name":"Networks Lab","faculty_id":"F03","group_ids":["CSE-B"],"sessions_per_week":1,"duration":1,"room_type":"lab"},
+    {"id":"CS304","name":"Databases","faculty_id":"F01","group_ids":["CSE-B"],"sessions_per_week":2,"duration":1,"room_type":"lecture"},
+    {"id":"CS305","name":"AI Foundations","faculty_id":"F03","group_ids":["CSE-A"],"sessions_per_week":1,"duration":1,"room_type":"lecture"},
+    {"id":"CS306","name":"Professional Skills","faculty_id":"F02","group_ids":["CSE-A","CSE-B"],"sessions_per_week":1,"duration":1,"room_type":"lecture"}
+  ]
+}

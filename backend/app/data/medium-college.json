@@ -1,0 +1,8 @@
+{
+  "name":"Medium College Classroom", "description":"A denser classroom dataset for comparison runs.",
+  "days":["Mon","Tue","Wed","Thu","Fri"], "periods":["09:00","10:00","11:00","12:00","13:00","14:00","15:00"],
+  "rooms":[{"id":"R101","capacity":60,"type":"lecture"},{"id":"R102","capacity":45,"type":"lecture"},{"id":"R103","capacity":35,"type":"lecture"},{"id":"LAB1","capacity":40,"type":"lab"},{"id":"LAB2","capacity":40,"type":"lab"}],
+  "faculty":[{"id":"F01","name":"Dr. Rao"},{"id":"F02","name":"Dr. Mehta"},{"id":"F03","name":"Dr. Sen"},{"id":"F04","name":"Dr. Iyer"}],
+  "groups":[{"id":"CSE-A","size":38},{"id":"CSE-B","size":32},{"id":"CSE-C","size":28}],
+  "courses":[{"id":"CS101","name":"Programming","faculty_id":"F01","group_ids":["CSE-A","CSE-B"],"sessions_per_week":3,"room_type":"lecture"},{"id":"CS102","name":"Data Structures","faculty_id":"F02","group_ids":["CSE-A"],"sessions_per_week":2,"room_type":"lecture"},{"id":"CS103","name":"Systems Lab","faculty_id":"F03","group_ids":["CSE-B","CSE-C"],"sessions_per_week":2,"room_type":"lab"},{"id":"CS104","name":"AI","faculty_id":"F04","group_ids":["CSE-C"],"sessions_per_week":2,"room_type":"lecture"},{"id":"CS105","name":"Networks","faculty_id":"F01","group_ids":["CSE-C"],"sessions_per_week":2,"room_type":"lecture"},{"id":"CS106","name":"Databases","faculty_id":"F02","group_ids":["CSE-B"],"sessions_per_week":2,"room_type":"lecture"}]
+}
