@@ -112,13 +112,15 @@ class Optimizer:
 
 class LocalSearch(Optimizer):
     def run(self):
-        start=time.perf_counter(); iterations=int(self.params.get("iterations", self.params.get("generations", 100))); current=self.problem.random_candidate(self.rng); current_score=self.score(current); best=[a.copy() for a in current]; best_score=current_score; history=[]; temperature=float(self.params.get("initial_temperature",1000)); cooling=float(self.params.get("cooling_rate",.95)); accepted=0
+        start=time.perf_counter(); iterations=int(self.params.get("iterations", self.params.get("generations", 100))); current=self.problem.random_candidate(self.rng); current_score=self.score(current); best=[a.copy() for a in current]; best_score=current_score; history=[]; temperature=float(self.params.get("initial_temperature",1000)); cooling=float(self.params.get("cooling_rate",.95)); accepted=0; accepted_moves=0; rejected_moves=0; plateaus=0; escaped=0
         for iteration in range(iterations):
             candidate=self.neighbor(current); candidate_score=self.score(candidate); delta=candidate_score.total_cost-current_score.total_cost
-            accept=delta <= 0 or (self.params.get("mode")=="sa" and self.rng.random() < math.exp(-delta/max(temperature,.0001)))
-            if accept: current,current_score=candidate,candidate_score; accepted += int(delta > 0)
+            probability=1.0 if delta <= 0 else math.exp(-delta/max(temperature,.0001)); accept=delta <= 0 or (self.params.get("mode")=="sa" and self.rng.random() < probability)
+            if accept: current,current_score=candidate,candidate_score; accepted += int(delta > 0); accepted_moves += 1; escaped += int(self.params.get("mode")=="sa" and delta > 0)
+            else: rejected_moves += 1; plateaus += int(delta == 0)
             if current_score.total_cost < best_score.total_cost: best,best_score=[a.copy() for a in current],current_score
-            point=self.history_point(iteration,best_score,candidate=best,temperature=temperature,accepted_worse_moves=accepted); history.append(point); self.emit(point); temperature*=cooling
+            event=("Accepted a worse solution to escape a local optimum" if delta > 0 and accept else "Improved the current timetable" if accept else "Rejected a worse neighbor")
+            point=self.history_point(iteration,best_score,candidate=best,temperature=temperature,accepted_worse_moves=accepted,current_cost=current_score.total_cost,neighbor_cost=candidate_score.total_cost,acceptance_probability=round(probability,4),accepted_moves=accepted_moves,rejected_moves=rejected_moves,plateaus=plateaus,escaped_local_optima=escaped,local_optimum_detected=rejected_moves > 4,event=event); history.append(point); self.emit(point); temperature*=cooling
         return OptimizationResult(best,best_score,history,self.evaluations,(time.perf_counter()-start)*1000)
 
 
@@ -128,7 +130,7 @@ class GeneticAlgorithm(Optimizer):
         for generation in range(generations):
             scores=[self.score(c) for c in pop]; index=min(range(size),key=lambda i:scores[i].total_cost)
             if best is None or scores[index].total_cost < best[1].total_cost: best=([a.copy() for a in pop[index]],scores[index])
-            point=self.history_point(generation,best[1],sum(s.total_cost for s in scores)/len(scores),candidate=best[0],population_diversity=len({tuple((a.day,a.period,a.room) for a in c) for c in pop})); history.append(point); self.emit(point)
+            point=self.history_point(generation,best[1],sum(s.total_cost for s in scores)/len(scores),candidate=best[0],population_diversity=len({tuple((a.day,a.period,a.room) for a in c) for c in pop}),generation=generation+1,population_size=size,mutation_rate=mutation,crossover_rate=float(self.params.get("crossover_rate",.8)),elite_count=1,best_individual_fitness=best[1].normalized_fitness,event="New population evaluated and elite preserved"); history.append(point); self.emit(point)
             next_pop=[best[0]]
             while len(next_pop)<size:
                 parent=min(self.rng.sample(pop, min(3,len(pop))),key=lambda c:self.problem.evaluate(c,self.weights).total_cost); child=[a.copy() for a in parent]
@@ -141,17 +143,18 @@ class GeneticAlgorithm(Optimizer):
 class ParticleSwarm(Optimizer):
     """Discrete PSO: particles move toward personal/global best through gene adoption and random mutation."""
     def run(self):
-        start=time.perf_counter(); iterations=int(self.params.get("iterations",100)); size=int(self.params.get("swarm_size",20)); particles=[self.problem.random_candidate(self.rng) for _ in range(size)]; personal=[([a.copy() for a in p],self.score(p)) for p in particles]; global_best=min(personal,key=lambda x:x[1].total_cost); history=[]
+        start=time.perf_counter(); iterations=int(self.params.get("iterations",100)); size=int(self.params.get("swarm_size",20)); particles=[self.problem.random_candidate(self.rng) for _ in range(size)]; personal=[([a.copy() for a in p],self.score(p)) for p in particles]; global_best=min(personal,key=lambda x:x[1].total_cost); initial_cost=global_best[1].total_cost; history=[]
         for iteration in range(iterations):
+            velocity_changes=0
             for i,p in enumerate(particles):
                 for gene in range(len(p)):
-                    if self.rng.random()<.35: p[gene]=global_best[0][gene].copy()
-                    elif self.rng.random()<.25: p[gene]=personal[i][0][gene].copy()
+                    if self.rng.random()<.35: p[gene]=global_best[0][gene].copy(); velocity_changes += 1
+                    elif self.rng.random()<.25: p[gene]=personal[i][0][gene].copy(); velocity_changes += 1
                 if self.rng.random()<.2: p=self.mutate(p)
                 score=self.score(p)
                 if score.total_cost<personal[i][1].total_cost: personal[i]=([a.copy() for a in p],score)
                 if score.total_cost<global_best[1].total_cost: global_best=([a.copy() for a in p],score)
-            point=self.history_point(iteration,global_best[1],sum(s.total_cost for _,s in personal)/size,candidate=global_best[0],swarm_diversity=len({tuple((a.day,a.period,a.room) for a in p) for p in particles})); history.append(point); self.emit(point)
+            point=self.history_point(iteration,global_best[1],sum(s.total_cost for _,s in personal)/size,candidate=global_best[0],swarm_diversity=len({tuple((a.day,a.period,a.room) for a in p) for p in particles}),particle_count=size,average_velocity=round(velocity_changes/max(1,size*len(global_best[0])),3),convergence_percentage=round(max(0,100*(1-global_best[1].total_cost/max(1,initial_cost)),),2),event="Particles attracted toward personal and global bests"); history.append(point); self.emit(point)
         return OptimizationResult(global_best[0],global_best[1],history,self.evaluations,(time.perf_counter()-start)*1000)
 
 

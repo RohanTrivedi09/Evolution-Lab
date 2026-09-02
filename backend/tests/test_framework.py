@@ -28,3 +28,9 @@ def test_seeded_strategy_is_reproducible(problem):
     second = optimizer_for("hill_climbing", problem, Weights(), 7, {"iterations": 5}).run()
     assert first.score.as_dict() == second.score.as_dict()
     assert [(a.day, a.period, a.room) for a in first.candidate] == [(a.day, a.period, a.room) for a in second.candidate]
+
+@pytest.mark.parametrize("name,field", [("hill_climbing", "accepted_moves"), ("simulated_annealing", "temperature"), ("genetic_algorithm", "population_diversity"), ("particle_swarm", "swarm_diversity")])
+def test_strategy_specific_telemetry_is_additive(problem, name, field):
+    result = optimizer_for(name, problem, Weights(), 3, {"iterations": 2, "generations": 2, "population_size": 4, "swarm_size": 4}).run()
+    assert field in result.history[-1]
+    assert "event" in result.history[-1]
