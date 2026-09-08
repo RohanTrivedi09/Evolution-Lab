@@ -21,3 +21,6 @@ npm run dev
 
 Run backend tests with `cd backend && pytest`.
 
+While a run is active, `GET /api/runs/{run_id}` exposes the latest evaluated
+schedule in `latest.schedule`; the frontend renders that snapshot as it
+changes. Active runs can be stopped with `POST /api/runs/{run_id}/cancel`.

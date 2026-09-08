@@ -10,6 +10,11 @@ app = FastAPI(title="Evolution Lab API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 runs: dict[str, dict] = {}
 comparisons: dict[str, dict] = {}
+cancel_events: dict[str, threading.Event] = {}
+
+
+class RunCancelled(Exception):
+    pass
 
 
 @app.get("/api/health")
@@ -31,17 +36,26 @@ def execute(run_id, request):
     try:
         problem=Problem(load_dataset(request.dataset_id))
         def progress(point):
+            if cancel_events[run_id].is_set():
+                raise RunCancelled()
             record["progress"] = point["iteration"] + 1
             record["latest"] = point
         optimizer=optimizer_for(request.algorithm,problem,request.weights,request.seed,request.parameters,progress); result=optimizer.run()
+        if cancel_events[run_id].is_set():
+            raise RunCancelled()
         record.update({"status":"completed","result":result.as_dict(problem),"progress":100})
+    except RunCancelled:
+        record.update({"status":"cancelled"})
     except Exception as exc: record.update({"status":"failed","error":str(exc)})
+    finally:
+        cancel_events.pop(run_id, None)
 
 @app.post("/api/runs")
 def create_run(request: RunRequest):
     try: load_dataset(request.dataset_id)
     except KeyError: raise HTTPException(404,"Unknown dataset")
     run_id=uuid.uuid4().hex; runs[run_id]={"run_id":run_id,"status":"queued","progress":0,"algorithm":request.algorithm,"dataset_id":request.dataset_id,"seed":request.seed,"parameters":request.parameters,"weights":request.weights.model_dump()}
+    cancel_events[run_id] = threading.Event()
     threading.Thread(target=execute,args=(run_id,request),daemon=True).start(); return {"run_id":run_id,"status":"queued"}
 
 @app.get("/api/runs/{run_id}")
@@ -57,6 +71,10 @@ def history(run_id: str):
 @app.post("/api/runs/{run_id}/cancel")
 def cancel(run_id: str):
     if run_id not in runs: raise HTTPException(404,"Unknown run")
+    status = runs[run_id]["status"]
+    if status in {"completed", "failed", "cancelled"}:
+        return {"status": status}
+    cancel_events[run_id].set()
     runs[run_id]["status"]="cancel_requested"; return {"status":"cancel_requested"}
 
 @app.post("/api/comparisons")
@@ -77,7 +95,7 @@ def get_comparison(comparison_id: str):
     if comparison_id not in comparisons: raise HTTPException(404,"Unknown comparison")
     record = comparisons[comparison_id]
     results = [runs[run_id] for run_id in record["run_ids"]]
-    if all(item["status"] in {"completed", "failed"} for item in results): record["status"] = "completed"
+    if all(item["status"] in {"completed", "failed", "cancelled"} for item in results): record["status"] = "completed"
     record["runs"] = results
     return record
 
