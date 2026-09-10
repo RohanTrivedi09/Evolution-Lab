@@ -10,7 +10,7 @@ import type { Dataset, Schedule } from '../types';
  * session per cell hides both cases, so cells hold a list and same-room collisions are
  * marked with a badge rather than by colour alone.
  */
-export function TimetableGrid({ dataset, schedule, scope, animate = true, onSelect, selected }: {
+export function TimetableGrid({ dataset, schedule, scope, animate = true, onSelect, selected, onMove }: {
   dataset: Dataset | null;
   schedule: Schedule;
   /** Namespaces chip keys so several grids can be mounted at once. */
@@ -18,6 +18,9 @@ export function TimetableGrid({ dataset, schedule, scope, animate = true, onSele
   animate?: boolean;
   onSelect?: (sessionId: string) => void;
   selected?: string | null;
+  /** Supplying this makes the grid editable: chips can be dragged, or moved with the
+   *  arrow keys once focused. Drag alone would leave the grid unusable by keyboard. */
+  onMove?: (sessionId: string, day: string, period: string) => void;
 }) {
   const cells = useMemo(() => {
     const map = new Map<string, { id: string; room: string; clash: boolean }[]>();
@@ -36,11 +39,24 @@ export function TimetableGrid({ dataset, schedule, scope, animate = true, onSele
   }, [schedule]);
 
   if (!dataset) return null;
-  const Chip = animate ? motion.button : 'button';
+  const Chip: React.ElementType = animate && !onMove ? motion.button : 'button';
+
+  const nudge = (event: React.KeyboardEvent, id: string, day: string, period: string) => {
+    const keys: Record<string, [number, number]> = {
+      ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1],
+    };
+    const delta = keys[event.key];
+    if (!delta || !onMove) return;
+    event.preventDefault();
+    const clamp = (v: number, max: number) => Math.min(max, Math.max(0, v));
+    const dayIndex = clamp(dataset.days.indexOf(day) + delta[0], dataset.days.length - 1);
+    const periodIndex = clamp(dataset.periods.indexOf(period) + delta[1], dataset.periods.length - 1);
+    onMove(id, dataset.days[dayIndex], dataset.periods[periodIndex]);
+  };
   // Chips settle in place rather than flying between cells: while a scene is being
   // scrubbed the schedule can change many times a second, and shared-layout projection
   // never settles under that, leaving chips mid-flight across cell boundaries.
-  const enter = animate
+  const enter = animate && !onMove
     ? { initial: { opacity: 0, scale: 0.94 }, animate: { opacity: 1, scale: 1 },
         transition: { duration: 0.16, ease: 'easeOut' } }
     : {};
@@ -55,14 +71,28 @@ export function TimetableGrid({ dataset, schedule, scope, animate = true, onSele
           {dataset.days.map(day => {
             const entries = cells.get(`${day}|${period}`) ?? [];
             return (
-              <div className={`week-cell${entries.length ? ' occupied' : ''}`} key={`${day}-${period}`}>
+              <div
+                className={`week-cell${entries.length ? ' occupied' : ''}${onMove ? ' droppable' : ''}`}
+                key={`${day}-${period}`}
+                onDragOver={onMove ? event => event.preventDefault() : undefined}
+                onDrop={onMove ? event => {
+                  event.preventDefault();
+                  const id = event.dataTransfer.getData('text/plain');
+                  if (id) onMove(id, day, period);
+                } : undefined}
+              >
                 {entries.map(entry => (
                   <Chip
                     {...enter}
                     key={`${scope}:${entry.id}:${day}:${period}`}
                     type="button"
-                    className={`chip${entry.clash ? ' clash' : ''}${selected === entry.id ? ' selected' : ''}`}
+                    className={`chip${entry.clash ? ' clash' : ''}${selected === entry.id ? ' selected' : ''}${onMove ? ' movable' : ''}`}
                     onClick={onSelect ? () => onSelect(entry.id) : undefined}
+                    draggable={!!onMove}
+                    onDragStart={onMove ? (event: React.DragEvent) =>
+                      event.dataTransfer.setData('text/plain', entry.id) : undefined}
+                    onKeyDown={onMove ? (event: React.KeyboardEvent) =>
+                      nudge(event, entry.id, day, period) : undefined}
                     title={`${entry.id} in ${entry.room}${entry.clash ? ' - room double-booked' : ''}`}
                   >
                     <b>{entry.id}</b>
