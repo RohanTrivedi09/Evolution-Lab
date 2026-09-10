@@ -4,7 +4,7 @@ from __future__ import annotations
 from app.models import Weights
 from app.optimization import Assignment, evaluate
 
-from factories import LAB_COURSE, build, course, place
+from factories import BASE, LAB_COURSE, build, course, place
 
 
 def counts(problem, candidate, weights=None):
@@ -27,10 +27,24 @@ def test_room_type_must_match():
     assert hard.get("room_type") == 1
 
 
-def test_room_capacity_must_fit_the_largest_group():
+def test_an_oversubscribed_room_is_not_a_violation():
+    """Capacity was dropped on purpose, so assert its absence rather than leave a gap.
+
+    The timetables this project models state neither room sizes nor batch sizes, so
+    enforcing capacity meant scoring numbers nobody supplied.
+    """
     problem = build(groups=[{"id": "G1", "size": 80}, {"id": "G2", "size": 30}])
-    score, hard, _ = counts(problem, place((0, 1, "R1")))
-    assert hard.get("capacity") == 1
+    _, hard, _ = counts(problem, place((0, 1, "R1")))  # R1 seats 50
+    assert "capacity" not in hard
+    assert not hard
+
+
+def test_a_dataset_without_sizes_still_validates_and_scores():
+    rooms = [{k: v for k, v in room.items() if k != "capacity"} for room in BASE["rooms"]]
+    groups = [{"id": group["id"]} for group in BASE["groups"]]
+    problem = build(rooms=rooms, groups=groups)
+    score = evaluate(problem, place((0, 1, "R1")), Weights())
+    assert score.hard_violations == 0
 
 
 def test_faculty_unavailable_period_is_hard():

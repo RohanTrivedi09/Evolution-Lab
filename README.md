@@ -103,7 +103,7 @@ backend/app/
   data.py                   Sample dataset loading
   optimization/
     representation.py       Session, Assignment, Problem, the candidate domain
-    evaluator.py            The shared fitness function: 7 hard, 6 soft constraints
+    evaluator.py            The shared fitness function: 6 hard, 6 soft constraints
     neighborhood.py         move / swap / change-room operators, shared by all searches
     base.py                 Budget accounting, history recording, trajectory sampling
     local_search.py         Hill Climbing, Simulated Annealing
@@ -170,7 +170,12 @@ and a threats-to-validity section covering the dataset assumptions.
 - Runs, experiments and pasted datasets are held in memory — nothing survives a restart.
 - `evaluations_to_feasible` is the first *recorded* feasible point; history is decimated
   to about 200 points, so it is approximate.
-- The bundled `adani-sem7-cse` dataset assumes group sizes and room capacities that the
-  source timetables do not state, and models no faculty unavailability.
+- Room capacity is deliberately not a constraint. The source timetables state neither
+  room sizes nor batch sizes, so enforcing it would mean scoring invented numbers. This
+  is a stated deviation from spec section 8, hard constraint 4. `Room.capacity` and
+  `Group.size` remain in the schema as optional descriptive fields that nothing scores.
+- Faculty unavailability is not modelled for `adani-sem7-cse`: the timetables show where
+  each member does teach, not when they are free. Deriving it from the published
+  placements would be circular.
 - Discrete PSO is an adaptation: "velocity" is a set of per-gene adoption
   probabilities (`w`, `c1`, `c2`), documented in `optimization/swarm.py`.

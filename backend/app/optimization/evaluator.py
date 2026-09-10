@@ -11,7 +11,10 @@ from ..models import Weights
 from .fuzzy import infer
 from .representation import Candidate, Problem
 
-HARD_CATEGORIES = ("domain", "room_type", "capacity", "faculty_availability",
+# Capacity is deliberately absent. The real timetables this project is built around
+# state no room sizes and no student counts, so enforcing it meant scoring invented
+# numbers and reporting violations of them as if they were real.
+HARD_CATEGORIES = ("domain", "room_type", "faculty_availability",
                    "room_conflict", "faculty_conflict", "group_conflict")
 SOFT_CATEGORIES = ("preferred_period_miss", "faculty_undesirable", "edge_period",
                    "same_day_repeat", "room_change", "group_gap", "fragmentation")
@@ -97,14 +100,6 @@ def evaluate(problem: Problem, candidate: Candidate, weights: Weights) -> Score:
             hard_counts["room_type"] += 1
             ledger.add(session_id=session.id, category="room_type", severity="hard",
                        message=f"Room {room.id} is a {room.type}, but this session needs a {session.room_type}",
-                       cost=weights.hard, course_id=session.course_id,
-                       faculty_id=session.faculty_id, group_ids=session.group_ids)
-
-        largest = max((problem.groups[g].size for g in session.group_ids), default=0)
-        if room.capacity < largest:
-            hard_counts["capacity"] += 1
-            ledger.add(session_id=session.id, category="capacity", severity="hard",
-                       message=f"Room capacity {room.capacity} is below group size {largest}",
                        cost=weights.hard, course_id=session.course_id,
                        faculty_id=session.faculty_id, group_ids=session.group_ids)
 

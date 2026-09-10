@@ -11,7 +11,8 @@ class Unavailable(BaseModel):
 
 class Room(BaseModel):
     id: str
-    capacity: int = Field(gt=0)
+    #: Descriptive only. Nothing scores it; see HARD_CATEGORIES in the evaluator.
+    capacity: int | None = Field(default=None, gt=0)
     type: str
 
 
@@ -24,7 +25,8 @@ class Faculty(BaseModel):
 
 class Group(BaseModel):
     id: str
-    size: int = Field(gt=0)
+    #: Descriptive only, for the same reason as Room.capacity.
+    size: int | None = Field(default=None, gt=0)
 
 
 class PreferredPeriod(BaseModel):

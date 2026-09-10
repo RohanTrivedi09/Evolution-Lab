@@ -74,9 +74,13 @@ algorithm in `tests/test_algorithms.py`.
 
 ## Threats to validity
 
-- **Dataset assumptions.** Group sizes (25), room capacities (70 lecture / 30 lab) and
-  faculty unavailability are not present in the source timetables and were chosen, not
-  measured. Capacity and availability constraints therefore test assumed values.
+- **Capacity is not enforced.** The source timetables state no room sizes and no batch
+  sizes, so rather than score invented values the constraint was removed. Six hard
+  constraints are evaluated, not the seven in spec section 8. Results below therefore say
+  nothing about whether rooms are large enough.
+- **Faculty unavailability is not modelled.** The timetables record where each member
+  teaches, not when they are free. Deriving unavailability from the published placements
+  would be circular: it would feed the existing answer back in as a constraint.
 - **Labs are modelled as single periods.** The real labs are two-hour blocks;
   `Course.duration` is parsed but unused.
 - **Evaluations to first feasible is approximate.** History is decimated to about 200

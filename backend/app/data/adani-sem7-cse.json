@@ -1,6 +1,6 @@
 {
   "name": "Adani University - Sem VII CSE (AI-ML)",
-  "description": "Real timetable inputs for sections A, B and C, transcribed from the departmental timetables effective 03/08/2026. The 12:10 lunch period is omitted so nothing can be scheduled into it.",
+  "description": "Real timetable inputs for sections A, B and C, transcribed from the departmental timetables effective 03/08/2026. The 12:10 lunch period is omitted so nothing can be scheduled into it. Room capacities and batch sizes are absent because the source documents do not state them.",
   "days": [
     "Mon",
     "Tue",
@@ -21,97 +21,78 @@
   "rooms": [
     {
       "id": "201",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "202",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "203",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "302",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "303A",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "303B",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "401",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "402",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "403",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "404",
-      "capacity": 70,
       "type": "lecture"
     },
     {
       "id": "3A",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "3B",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "3C",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "4A",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "4B",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "4C",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "5A",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "5B",
-      "capacity": 30,
       "type": "lab"
     },
     {
       "id": "5C",
-      "capacity": 30,
       "type": "lab"
     }
   ],
@@ -167,40 +148,31 @@
   ],
   "groups": [
     {
-      "id": "A1",
-      "size": 25
+      "id": "A1"
     },
     {
-      "id": "A2",
-      "size": 25
+      "id": "A2"
     },
     {
-      "id": "A3",
-      "size": 25
+      "id": "A3"
     },
     {
-      "id": "B1",
-      "size": 25
+      "id": "B1"
     },
     {
-      "id": "B2",
-      "size": 25
+      "id": "B2"
     },
     {
-      "id": "B3",
-      "size": 25
+      "id": "B3"
     },
     {
-      "id": "C1",
-      "size": 25
+      "id": "C1"
     },
     {
-      "id": "C2",
-      "size": 25
+      "id": "C2"
     },
     {
-      "id": "C3",
-      "size": 25
+      "id": "C3"
     }
   ],
   "courses": [
