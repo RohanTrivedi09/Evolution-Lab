@@ -83,6 +83,9 @@ class Weights(BaseModel):
     soft: float = 100
     gaps: float = 10
     fragmentation: float = 5
+    #: Replace the crisp gap and fragmentation terms with a Mamdani fuzzy
+    #: discomfort score. Off by default so existing results stay comparable.
+    fuzzy: bool = False
 
 
 class ScheduledSlot(BaseModel):

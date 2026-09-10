@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from ..models import Weights
+from .fuzzy import infer
 from .representation import Candidate, Problem
 
 HARD_CATEGORIES = ("domain", "room_type", "capacity", "faculty_availability",
@@ -25,6 +26,7 @@ class Score:
     group_gaps: int
     daily_fragmentation: int
     violation_details: list[dict]
+    fuzzy: dict | None = None
     objectives: dict[str, float] = field(default_factory=dict)
     soft_breakdown: dict[str, int] = field(default_factory=dict)
     hard_breakdown: dict[str, int] = field(default_factory=dict)
@@ -188,11 +190,13 @@ def evaluate(problem: Problem, candidate: Candidate, weights: Weights) -> Score:
     # --- Per-group daily shape --------------------------------------------------------
     gaps = 0
     fragmentation = 0
+    active_group_days = 0
     for group_id in problem.groups:
         by_day: dict[int, list[tuple[int, str]]] = {}
         for _, session, assignment in placed:
             if group_id in session.group_ids:
                 by_day.setdefault(assignment.day, []).append((assignment.period, assignment.room))
+        active_group_days += len(by_day)
         for day, entries in by_day.items():
             periods = [period for period, _ in entries]
             holes = len(set(range(min(periods), max(periods) + 1)) - set(periods))
@@ -229,8 +233,23 @@ def evaluate(problem: Problem, candidate: Candidate, weights: Weights) -> Score:
     mean = sum(usage.values()) / max(1, len(usage))
     imbalance = sum(abs(count - mean) for count in usage.values()) / max(1, len(usage))
 
-    total = (weights.hard * hard + weights.soft * soft
-             + weights.gaps * gaps + weights.fragmentation * fragmentation)
+    # Crisp comfort: gaps and fragmentation priced linearly.
+    comfort_cost = weights.gaps * gaps + weights.fragmentation * fragmentation
+    fuzzy_report = None
+    if weights.fuzzy:
+        # Fuzzy comfort: nobody believes two idle periods is exactly twice as bad as
+        # one, so the shape of the penalty is inferred rather than assumed linear.
+        span = max(1, problem.period_count - 1)
+        halves = max(1, problem.period_count // 2)
+        fuzzy_report = infer(
+            congestion=gaps / max(1, active_group_days * span),
+            fragmentation=fragmentation / max(1, active_group_days * halves),
+            edge_load=soft_counts["edge_period"] / max(1, len(placed)),
+        )
+        scale = (weights.gaps + weights.fragmentation) * max(1, len(problem.sessions))
+        comfort_cost = fuzzy_report["discomfort"] * scale
+
+    total = weights.hard * hard + weights.soft * soft + comfort_cost
 
     return Score(
         total_cost=total,
@@ -240,6 +259,7 @@ def evaluate(problem: Problem, candidate: Candidate, weights: Weights) -> Score:
         group_gaps=gaps,
         daily_fragmentation=fragmentation,
         violation_details=ledger.details,
+        fuzzy=fuzzy_report,
         objectives={
             "hard_violations": float(hard),
             "soft_penalty": float(soft),

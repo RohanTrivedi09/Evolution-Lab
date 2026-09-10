@@ -317,3 +317,39 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   .timetable-panel { overflow-x: auto; }
   .timeline article { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* Fuzzy inference panel */
+.toggle { flex: none; min-width: 108px; }
+.switch {
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  font: 500 13px var(--mono);
+  background: var(--glass-sunken);
+  box-shadow: none;
+  text-transform: lowercase;
+}
+.switch.on {
+  background: color-mix(in oklab, var(--swarm) 26%, transparent);
+  border-color: color-mix(in oklab, var(--swarm) 50%, transparent);
+  color: var(--ink);
+}
+.fuzzy .rule-list { display: grid; gap: 6px; margin-top: 16px; }
+.fuzzy .rule-list > div {
+  display: grid;
+  grid-template-columns: 1fr 90px 44px;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  background: var(--glass-sunken);
+  font-size: 13px;
+}
+.fuzzy .rule-list span { color: var(--ink-2); }
+.fuzzy .rule-list i {
+  display: block;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--genetic), var(--swarm));
+  min-width: 2px;
+}
+.fuzzy .rule-list b { font: 500 13px var(--mono); text-align: right; }

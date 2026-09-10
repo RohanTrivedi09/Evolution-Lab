@@ -30,6 +30,14 @@ export type Score = {
   cost_by_course?: Record<string, number>;
   cost_by_group?: Record<string, number>;
   cost_by_faculty?: Record<string, number>;
+  fuzzy?: FuzzyReport | null;
+};
+
+export type FuzzyReport = {
+  discomfort: number;
+  inputs: Record<string, number>;
+  memberships: Record<string, Record<string, number>>;
+  firings: { rule: string; consequent: string; strength: number }[];
 };
 
 export type Slot = { day: string; period: string; room_id: string };
