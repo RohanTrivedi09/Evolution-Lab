@@ -69,14 +69,6 @@ header h1 i {
   border: 1px dashed var(--edge);
 }
 
-.orb {
-  font-size: 44px;
-  background: linear-gradient(140deg, var(--accent), var(--swarm));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .empty p { color: var(--ink-2); }
 
 .metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0; }

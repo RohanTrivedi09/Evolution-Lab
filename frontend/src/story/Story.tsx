@@ -204,7 +204,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
     return (
       <main className="story">
         <div className="story-loading">
-          <div className="orb">✦</div>
+          
           <h2>Running all four strategies…</h2>
           <p>{BUDGET.toLocaleString()} fitness evaluations each, on the same dataset and seed.</p>
         </div>

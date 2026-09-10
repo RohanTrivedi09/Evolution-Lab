@@ -55,7 +55,7 @@ function App() {
         <button type="button" className="theme-toggle"
                 onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} appearance`}>
-          {theme === 'dark' ? '☀' : '☾'}
+          {theme === 'dark' ? 'Light' : 'Dark'}
         </button>
       </nav>
       {view === 'story' ? <Story onEnterLab={() => go('lab')} /> : <Lab />}
