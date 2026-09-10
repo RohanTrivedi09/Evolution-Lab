@@ -1,0 +1,106 @@
+/* Design tokens. Liquid Glass is a dual-mode material, so every surface colour is
+   defined for light and dark and the whole UI switches on one attribute. */
+
+:root {
+  color-scheme: light dark;
+
+  /* Accents carry meaning: one per strategy, reused by charts and scene tints. */
+  --accent:        #c85f3c;
+  --accent-soft:   #e8846096;
+  --hill:          #c85f3c;
+  --anneal:        #9a5741;
+  --genetic:       #4f7a6c;
+  --swarm:         #6f63a6;
+  --good:          #3f7a63;
+  --bad:           #c0442f;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-pill: 999px;
+
+  /* Apple's standard easing plus a slight overshoot for press feedback. */
+  --ease: cubic-bezier(.32, .72, 0, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI",
+          system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+
+  --blur: 22px;
+  --blur-strong: 40px;
+}
+
+/* --- light ------------------------------------------------------------------------ */
+:root, [data-theme="light"] {
+  --bg:            #f3efe9;
+  --bg-tint-a:     #f3a883;
+  --bg-tint-b:     #8fc0b1;
+  --bg-tint-c:     #b6a5e0;
+
+  --ink:           #1b1917;
+  --ink-2:         #635a52;
+  --ink-3:         #8d8378;
+
+  --glass:         rgba(255, 253, 250, .58);
+  --glass-strong:  rgba(255, 253, 250, .78);
+  --glass-sunken:  rgba(255, 253, 250, .34);
+  --edge:          rgba(28, 24, 20, .10);
+  --specular:      rgba(255, 255, 255, .85);
+  --underglow:     rgba(28, 24, 20, .03);
+  --solid:         #fffdfa;
+
+  --shadow: 0 1px 2px rgba(28, 24, 20, .05), 0 10px 30px -12px rgba(28, 24, 20, .18);
+  --shadow-lift: 0 2px 4px rgba(28, 24, 20, .06), 0 18px 44px -14px rgba(28, 24, 20, .26);
+}
+
+/* --- dark ------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg:            #131110;
+  --bg-tint-a:     #b8542f;
+  --bg-tint-b:     #2f6a58;
+  --bg-tint-c:     #4c3f7d;
+
+  --ink:           #f4efe8;
+  --ink-2:         #a89e93;
+  --ink-3:         #7d7268;
+
+  --glass:         rgba(255, 252, 247, .07);
+  --glass-strong:  rgba(255, 252, 247, .12);
+  --glass-sunken:  rgba(0, 0, 0, .18);
+  --edge:          rgba(255, 252, 247, .12);
+  --specular:      rgba(255, 255, 255, .16);
+  --underglow:     rgba(0, 0, 0, .30);
+  --solid:         #1e1b19;
+
+  --accent:        #e87a52;
+  --hill:          #e87a52;
+  --anneal:        #d0906f;
+  --genetic:       #6fae99;
+  --swarm:         #9a8cd8;
+  --good:          #6fae99;
+  --bad:           #e8705a;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 34px -14px rgba(0, 0, 0, .8);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, .45), 0 20px 50px -16px rgba(0, 0, 0, .9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131110;
+    --bg-tint-a: #b8542f; --bg-tint-b: #2f6a58; --bg-tint-c: #4c3f7d;
+    --ink: #f4efe8; --ink-2: #a89e93; --ink-3: #7d7268;
+    --glass: rgba(255, 252, 247, .07);
+    --glass-strong: rgba(255, 252, 247, .12);
+    --glass-sunken: rgba(0, 0, 0, .18);
+    --edge: rgba(255, 252, 247, .12);
+    --specular: rgba(255, 255, 255, .16);
+    --underglow: rgba(0, 0, 0, .30);
+    --solid: #1e1b19;
+    --accent: #e87a52; --hill: #e87a52; --anneal: #d0906f;
+    --genetic: #6fae99; --swarm: #9a8cd8; --good: #6fae99; --bad: #e8705a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 34px -14px rgba(0, 0, 0, .8);
+    --shadow-lift: 0 2px 6px rgba(0, 0, 0, .45), 0 20px 50px -16px rgba(0, 0, 0, .9);
+  }
+}
