@@ -39,7 +39,11 @@ header h1 i {
 /* Controls read as one floating capsule of glass, the way a toolbar does. */
 .controls {
   display: flex;
-  gap: 14px;
+  /* Nine children on one unwrapping line squeezed the selects to four characters and
+     the parameter labels below their own text width. Settings wrap; actions take
+     their own row. */
+  flex-wrap: wrap;
+  gap: 14px 16px;
   align-items: end;
   padding: 18px;
   margin-bottom: 22px;
@@ -51,11 +55,32 @@ header h1 i {
   box-shadow: inset 0 1px 0 var(--specular), var(--shadow);
 }
 
-.controls > label { flex: 1; min-width: 0; }
+/* Wide enough for a real dataset name, not "Adan". */
+.controls > label { flex: 1 1 190px; min-width: 168px; }
 
-.parameter-strip { display: flex; gap: 10px; flex: 2; min-width: 0; }
+.parameter-strip {
+  /* A grid rather than wrapping flex: with four fields, flex put three on one line
+     and stretched the fourth to double width on its own. Equal tracks avoid that. */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(86px, 1fr));
+  gap: 10px;
+  flex: 3 1 340px;
+  min-width: 296px;
+  /* Inputs stay aligned even when a label such as "population size" wraps. */
+  align-items: end;
+}
 
-.parameter-strip label { min-width: 0; flex: 1; }
+.parameter-strip label { min-width: 0; }
+
+/* Five buttons cannot share a line with the settings without starving them. */
+.control-actions {
+  flex: 1 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.control-actions button { flex: 0 0 auto; }
 
 .parameter-strip input { padding: 9px 10px; font-size: 13px; }
 
