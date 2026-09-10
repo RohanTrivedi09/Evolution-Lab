@@ -1,5 +1,4 @@
 /* The lab dashboard, rebuilt on the glass material. */
-
 main {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,7 +12,9 @@ header {
   gap: 28px;
   padding-bottom: 34px;
 }
+
 header h1 { margin: 6px 0 16px; }
+
 header h1 i {
   font-style: normal;
   background: linear-gradient(115deg, var(--accent), var(--swarm));
@@ -21,6 +22,7 @@ header h1 i {
   background-clip: text;
   color: transparent;
 }
+
 .status {
   flex: none;
   font: 500 11px var(--mono);
@@ -48,9 +50,13 @@ header h1 i {
   -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(180%);
   box-shadow: inset 0 1px 0 var(--specular), var(--shadow);
 }
+
 .controls > label { flex: 1; min-width: 0; }
+
 .parameter-strip { display: flex; gap: 10px; flex: 2; min-width: 0; }
+
 .parameter-strip label { min-width: 0; flex: 1; }
+
 .parameter-strip input { padding: 9px 10px; font-size: 13px; }
 
 .empty {
@@ -62,6 +68,7 @@ header h1 i {
   border-radius: var(--r-xl);
   border: 1px dashed var(--edge);
 }
+
 .orb {
   font-size: 44px;
   background: linear-gradient(140deg, var(--accent), var(--swarm));
@@ -69,18 +76,27 @@ header h1 i {
   background-clip: text;
   color: transparent;
 }
+
 .empty p { color: var(--ink-2); }
 
 .metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0; }
+
 .metric { padding: 16px 18px; }
+
 .metric span { font-size: 12px; color: var(--ink-3); }
+
 .metric strong { display: block; font-size: 24px; font-weight: 500; margin-top: 6px; }
+
 .metric.good strong { color: var(--good); }
+
 .metric.bad strong { color: var(--bad); }
 
 .panel { padding: 24px; margin-bottom: 16px; }
+
 .grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 16px; margin-bottom: 16px; }
+
 .panel-title { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+
 .panel-title > span {
   flex: none;
   font: 500 11px var(--mono);
@@ -88,6 +104,7 @@ header h1 i {
   text-transform: uppercase;
   color: var(--ink-3);
 }
+
 .panel h2 { margin-bottom: 18px; }
 
 .bar-row {
@@ -98,11 +115,12 @@ header h1 i {
   border-bottom: 1px solid var(--edge);
   font-size: 14px;
 }
+
 .bar-row:last-child { border-bottom: 0; }
+
 .bar-row b { font-size: 17px; font-weight: 500; }
 
 /* --- live run --------------------------------------------------------------------- */
-
 .live-banner {
   display: flex;
   justify-content: space-between;
@@ -110,10 +128,15 @@ header h1 i {
   gap: 24px;
   border-left: 3px solid var(--accent);
 }
+
 .live-banner h2 { margin-bottom: 6px; }
+
 .live-banner p:not(.eyebrow) { margin: 0; color: var(--ink-2); }
+
 .live-actions { display: flex; align-items: center; gap: 14px; flex: none; }
+
 .live-actions b { font: 500 12px var(--mono); color: var(--ink-2); }
+
 .empty-progress {
   min-height: 150px;
   display: grid;
@@ -121,45 +144,24 @@ header h1 i {
   color: var(--ink-3);
 }
 
-.live-grid { display: grid; gap: 10px; margin-top: 18px; }
-.day-card {
-  min-width: 0;
-  padding: 10px;
-  border-radius: var(--r-md);
-  background: var(--glass-sunken);
-  border: 1px solid var(--edge);
-}
-.day-card > strong { font-size: 12px; color: var(--ink-2); }
-.slot {
-  min-height: 42px;
-  margin-top: 6px;
-  padding: 6px 8px;
-  border-radius: var(--r-sm);
-  font-size: 11px;
-  display: grid;
-  gap: 2px;
-  background: var(--glass-sunken);
-}
-.slot small { font: 10px var(--mono); color: var(--ink-3); }
-.slot.filled {
-  background: color-mix(in oklab, var(--accent) 20%, transparent);
-  color: var(--ink);
-  font-weight: 600;
-}
-
 /* --- replay ----------------------------------------------------------------------- */
-
 .replay { overflow: hidden; }
+
 .replay-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+
 .replay-stats .metric { box-shadow: none; background: var(--glass-sunken); }
+
 .replay-actions { display: flex; align-items: end; gap: 8px; margin: 18px 0; flex-wrap: wrap; }
+
 .replay-actions label { max-width: 120px; }
+
 .replay-track {
   height: 5px;
   border-radius: var(--r-pill);
   background: var(--glass-sunken);
   overflow: hidden;
 }
+
 .replay-track span {
   display: block;
   height: 100%;
@@ -167,11 +169,10 @@ header h1 i {
   background: linear-gradient(90deg, var(--accent), var(--swarm));
   transition: width .25s var(--ease);
 }
-.replay-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 18px; }
 
 /* --- race ------------------------------------------------------------------------- */
-
 .race-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
 .race-card {
   padding: 18px;
   display: grid;
@@ -180,9 +181,13 @@ header h1 i {
   min-height: 150px;
   transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
+
 .race-card strong { font-size: 14px; }
+
 .race-card b { font-size: 25px; font-weight: 500; }
+
 .race-card span { font-size: 11px; color: var(--ink-3); }
+
 .race-card.winner {
   border-color: color-mix(in oklab, var(--accent) 55%, transparent);
   background: color-mix(in oklab, var(--accent) 12%, var(--glass));
@@ -191,12 +196,15 @@ header h1 i {
 }
 
 /* --- telemetry and timeline ------------------------------------------------------- */
-
 .telemetry-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+
 .telemetry-grid > div { padding: 12px 14px; border-radius: var(--r-md);
                         background: var(--glass-sunken); border: 1px solid var(--edge); }
+
 .telemetry-grid span { display: block; font-size: 11px; color: var(--ink-3); }
+
 .telemetry-grid b { display: block; font-size: 17px; font-weight: 500; margin-top: 5px; }
+
 .event-callout {
   margin-top: 16px;
   padding: 11px 14px;
@@ -208,6 +216,7 @@ header h1 i {
 }
 
 .timeline > div { display: grid; gap: 8px; margin-top: 16px; }
+
 .timeline article {
   display: grid;
   grid-template-columns: 108px 1fr auto;
@@ -217,48 +226,21 @@ header h1 i {
   border-radius: var(--r-md);
   background: var(--glass-sunken);
 }
+
 .timeline article b { font: 500 11px var(--mono); color: var(--accent); }
+
 .timeline article span { font-size: 14px; }
+
 .timeline article small { font-size: 11px; color: var(--ink-3); }
 
-/* --- weekly schedule -------------------------------------------------------------- */
-
-.weekly-grid { display: grid; grid-template-columns: 74px repeat(5, 1fr); gap: 5px; margin-top: 18px; }
-.corner, .day-heading, .period-heading {
-  font: 500 11px var(--mono);
-  letter-spacing: .05em;
-  color: var(--ink-3);
-  padding: 9px 6px;
-}
-.day-heading { text-align: center; color: var(--accent); }
-.calendar-cell {
-  min-height: 68px;
-  padding: 9px;
-  border-radius: var(--r-md);
-  background: var(--glass-sunken);
-  border: 1px solid var(--edge);
-  color: var(--ink);
-  text-align: left;
-  display: grid;
-  align-content: start;
-  gap: 4px;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-}
-.calendar-cell:hover { box-shadow: none; border-color: color-mix(in oklab, var(--accent) 40%, transparent); }
-.calendar-cell.filled {
-  background: color-mix(in oklab, var(--accent) 18%, transparent);
-  border-color: color-mix(in oklab, var(--accent) 28%, transparent);
-}
-.calendar-cell b { font-size: 12px; font-weight: 600; }
-.calendar-cell small { font: 10px var(--mono); color: var(--ink-3); }
-.calendar-cell.selected { outline: 2px solid var(--genetic); outline-offset: 1px; }
-
 .inspector { margin-top: 18px; padding: 20px; border-left: 3px solid var(--accent); font-size: 14px; }
+
 .inspector .panel-title h2 { font-size: 18px; }
+
 .inspector p { margin: 0 0 6px; color: var(--ink-2); }
+
 .inspector strong { color: var(--ink); }
+
 .inspector-details {
   margin-top: 14px;
   padding-top: 12px;
@@ -268,6 +250,7 @@ header h1 i {
   display: grid;
   gap: 5px;
 }
+
 .report-actions { display: flex; gap: 10px; margin-top: 20px; }
 
 .education {
@@ -275,11 +258,15 @@ header h1 i {
   margin-top: 16px;
   border-left: 3px solid var(--genetic);
 }
+
 .education h2 { margin: 0 0 10px; }
+
 .education p:last-child { margin: 0; color: var(--ink-2); }
 
 .table-wrap { overflow: auto; }
+
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
 th {
   text-align: left;
   font: 500 11px var(--mono);
@@ -289,10 +276,12 @@ th {
   padding: 10px;
   border-bottom: 1px solid var(--edge);
 }
+
 td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
 
 /* Recharts inherits none of this by default. */
 .recharts-cartesian-axis-tick-value, .recharts-label { fill: var(--ink-3); font-size: 11px; }
+
 .recharts-default-tooltip {
   background: var(--solid) !important;
   border: 1px solid var(--edge) !important;
@@ -302,24 +291,34 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
 }
 
 @media (max-width: 1000px) {
-  .grid { grid-template-columns: 1fr; }
-  .metrics, .telemetry-grid { grid-template-columns: repeat(3, 1fr); }
-  .race-grid { grid-template-columns: repeat(2, 1fr); }
-  .controls { flex-wrap: wrap; }
-  .parameter-strip { flex-basis: 100%; }
+.grid { grid-template-columns: 1fr; }
+
+.metrics, .telemetry-grid { grid-template-columns: repeat(3, 1fr); }
+
+.race-grid { grid-template-columns: repeat(2, 1fr); }
+
+.controls { flex-wrap: wrap; }
+
+.parameter-strip { flex-basis: 100%; }
 }
+
 @media (max-width: 700px) {
-  main { padding: 32px 16px 64px; }
-  header { display: block; }
-  .status { display: inline-block; margin-top: 18px; }
-  .metrics, .telemetry-grid, .replay-grid, .race-grid { grid-template-columns: repeat(2, 1fr); }
-  .weekly-grid { min-width: 660px; }
-  .timetable-panel { overflow-x: auto; }
-  .timeline article { grid-template-columns: 1fr; gap: 4px; }
+main { padding: 32px 16px 64px; }
+
+header { display: block; }
+
+.status { display: inline-block; margin-top: 18px; }
+
+.metrics, .telemetry-grid, .race-grid { grid-template-columns: repeat(2, 1fr); }
+
+.timetable-panel { overflow-x: auto; }
+
+.timeline article { grid-template-columns: 1fr; gap: 4px; }
 }
 
 /* Fuzzy inference panel */
 .toggle { flex: none; min-width: 108px; }
+
 .switch {
   padding: 10px 14px;
   border-radius: var(--r-md);
@@ -328,12 +327,15 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   box-shadow: none;
   text-transform: lowercase;
 }
+
 .switch.on {
   background: color-mix(in oklab, var(--swarm) 26%, transparent);
   border-color: color-mix(in oklab, var(--swarm) 50%, transparent);
   color: var(--ink);
 }
+
 .fuzzy .rule-list { display: grid; gap: 6px; margin-top: 16px; }
+
 .fuzzy .rule-list > div {
   display: grid;
   grid-template-columns: 1fr 90px 44px;
@@ -344,7 +346,9 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   background: var(--glass-sunken);
   font-size: 13px;
 }
+
 .fuzzy .rule-list span { color: var(--ink-2); }
+
 .fuzzy .rule-list i {
   display: block;
   height: 6px;
@@ -352,13 +356,18 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   background: linear-gradient(90deg, var(--genetic), var(--swarm));
   min-width: 2px;
 }
+
 .fuzzy .rule-list b { font: 500 13px var(--mono); text-align: right; }
 
 /* Schedule editor */
 .chip.movable { cursor: grab; }
+
 .chip.movable:active { cursor: grabbing; }
+
 .week-cell.droppable { transition: background .16s var(--ease), border-color .16s var(--ease); }
+
 .week-cell.droppable:hover { border-color: color-mix(in oklab, var(--accent) 45%, transparent); }
+
 .editor-bar {
   display: flex;
   align-items: center;
@@ -370,17 +379,27 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   background: var(--glass-sunken);
   border: 1px solid var(--edge);
 }
+
 .editor-bar .delta { font: 500 17px var(--mono); font-variant-numeric: tabular-nums; }
+
 .editor-bar .delta.worse { color: var(--bad); }
+
 .editor-bar .delta.better { color: var(--good); }
+
 .editor-bar p { margin: 0; font-size: 13px; color: var(--ink-2); flex: 1; min-width: 200px; }
+
 .editor-bar button { padding: 8px 16px; font-size: 13px; }
+
 .editor-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 12px; }
 
 /* Objective weights */
 .weights .parameter-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+
 .weights .panel-title button { padding: 8px 16px; font-size: 13px; }
-@media (max-width: 700px) { .weights .parameter-strip { grid-template-columns: repeat(2, 1fr); } }
+
+@media (max-width: 700px) {
+.weights .parameter-strip { grid-template-columns: repeat(2, 1fr); }
+}
 
 /* Paste-your-own dataset */
 .paste textarea {
@@ -393,14 +412,18 @@ td { padding: 13px 10px; border-bottom: 1px solid var(--edge); }
   padding: 12px;
   resize: vertical;
 }
+
 .paste .report-actions { margin-top: 14px; }
+
 .paste-ok {
   margin-top: 14px; padding: 10px 14px; border-radius: var(--r-md);
   background: color-mix(in oklab, var(--good) 14%, transparent);
   color: var(--good); font-size: 13px;
 }
+
 .paste-errors {
   margin: 14px 0 0; padding: 12px 14px 12px 32px; border-radius: var(--r-md);
   background: color-mix(in oklab, var(--bad) 10%, transparent);
   color: var(--bad); font-size: 13px; display: grid; gap: 4px;
 }
+

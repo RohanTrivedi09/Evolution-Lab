@@ -1,5 +1,4 @@
 /* Scrollytelling view, on the glass material. */
-
 .view-switch {
   position: fixed;
   top: 16px;
@@ -13,6 +12,7 @@
   backdrop-filter: blur(var(--blur-strong)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(180%);
 }
+
 .view-switch button {
   background: transparent;
   border: 0;
@@ -23,12 +23,15 @@
   padding: 7px 16px;
   font-size: 13px;
 }
+
 .view-switch button:hover:not(:disabled) { box-shadow: none; color: var(--ink); }
+
 .view-switch button.active {
   background: var(--ink);
   color: var(--bg);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
 }
+
 .theme-toggle { min-width: 40px; padding: 7px 12px !important; font-size: 15px !important; }
 
 .story { max-width: none; padding: 0; }
@@ -41,7 +44,9 @@
   margin: 0 auto;
   padding: 0 28px;
 }
+
 .story-hero h1 { font-size: clamp(42px, 7vw, 86px); margin: 12px 0 22px; }
+
 .story-hero h1 i {
   font-style: normal;
   background: linear-gradient(115deg, var(--accent), var(--swarm));
@@ -49,7 +54,9 @@
   background-clip: text;
   color: transparent;
 }
+
 .story-hero .lede { max-width: 60ch; font-size: 19px; }
+
 .scroll-cue {
   margin-top: 46px;
   font: 500 12px var(--mono);
@@ -57,7 +64,12 @@
   color: var(--ink-3);
   animation: bob 2.6s var(--ease) infinite;
 }
-@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+@keyframes bob {
+0%, 100% { transform: translateY(0); }
+
+50% { transform: translateY(5px); }
+}
 
 .story-loading {
   min-height: 82vh;
@@ -66,11 +78,12 @@
   text-align: center;
   gap: 8px;
 }
+
 .story-loading p { color: var(--ink-2); }
 
 /* --- a scrubbed scene ------------------------------------------------------------- */
-
 .scene { position: relative; }
+
 .scene-sticky {
   position: sticky;
   top: 0;
@@ -83,8 +96,11 @@
   margin: 0 auto;
   padding: 0 28px;
 }
+
 .scene-copy h2 { margin: 8px 0 18px; }
+
 .scene-copy p { color: var(--ink-2); font-size: 16px; max-width: 46ch; }
+
 .scene-rail {
   height: 3px;
   border-radius: var(--r-pill);
@@ -93,6 +109,7 @@
   margin-top: 28px;
   overflow: hidden;
 }
+
 .scene-rail span {
   display: block;
   height: 100%;
@@ -113,20 +130,26 @@
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   gap: 8px;
 }
+
 .scene-metrics { margin-bottom: 12px; }
+
 .scene-metrics > div, .scene-readout > div, .counter-facts > div {
   padding: 9px 12px;
   border-radius: var(--r-md);
   background: var(--glass-sunken);
   border: 1px solid var(--edge);
 }
+
 .scene-metrics span, .scene-readout span, .counter-facts span {
   display: block; font-size: 11px; color: var(--ink-3);
 }
+
 .scene-metrics b, .scene-readout b, .counter-facts b {
   display: block; font-size: 18px; font-weight: 500; margin-top: 3px;
 }
+
 .scene-readout { margin-top: 12px; }
+
 .scene-event {
   margin: 12px 0 0;
   padding: 9px 12px;
@@ -138,11 +161,13 @@
 }
 
 .counter-stage { display: grid; place-content: center; text-align: center; min-height: 340px; }
+
 .counter {
   font-size: clamp(40px, 6vw, 74px);
   font-weight: 500;
   line-height: 1;
 }
+
 .counter em {
   font-style: normal;
   margin-left: 12px;
@@ -151,7 +176,9 @@
   background-clip: text;
   color: transparent;
 }
+
 .counter sup { font-size: .5em; }
+
 .counter-caption {
   margin-top: 14px;
   font: 500 11px var(--mono);
@@ -159,9 +186,11 @@
   text-transform: uppercase;
   color: var(--ink-3);
 }
+
 .counter-facts { margin-top: 30px; grid-template-columns: repeat(3, 1fr); }
 
 .scene-legend { display: grid; gap: 4px; margin-top: 16px; }
+
 .scene-legend > div {
   display: grid;
   grid-template-columns: 12px 1fr auto auto;
@@ -172,8 +201,11 @@
   background: var(--glass-sunken);
   font-size: 13px;
 }
+
 .scene-legend i { width: 12px; height: 12px; border-radius: 4px; display: block; }
+
 .scene-legend b { font-size: 15px; font-weight: 500; }
+
 .scene-legend small { color: var(--ink-3); font-size: 11px; }
 
 .story-finale {
@@ -182,20 +214,25 @@
   padding: 22vh 28px 20vh;
   text-align: center;
 }
+
 .story-finale h2 { margin: 10px 0 16px; }
+
 .story-finale p { color: var(--ink-2); font-size: 17px; margin-bottom: 32px; }
+
 .story-finale button { padding: 15px 30px; font-size: 15px; }
 
 /* --- week grid -------------------------------------------------------------------- */
-
 .week-grid { display: grid; gap: 4px; }
+
 .week-corner, .week-day, .week-period {
   font: 500 11px var(--mono);
   letter-spacing: .05em;
   color: var(--ink-3);
   padding: 6px 4px;
 }
+
 .week-day { text-align: center; color: var(--accent); }
+
 .week-cell {
   min-height: 44px;
   padding: 4px;
@@ -206,6 +243,7 @@
   align-content: start;
   gap: 3px;
 }
+
 .chip {
   position: relative;
   width: 100%;
@@ -223,9 +261,13 @@
   box-shadow: none;
   font-family: var(--font);
 }
+
 .chip:hover:not(:disabled) { box-shadow: none; }
+
 .chip b { font-size: 11px; font-weight: 600; }
+
 .chip small { font: 9px var(--mono); color: var(--ink-2); }
+
 .chip.selected { outline: 2px solid var(--genetic); outline-offset: 1px; }
 
 /* Clashes are marked by a badge and a dashed edge, never by colour alone. */
@@ -234,6 +276,7 @@
   border-color: var(--bad);
   border-style: dashed;
 }
+
 .clash-badge {
   position: absolute;
   top: -6px;
@@ -248,9 +291,11 @@
 }
 
 @media (max-width: 940px) {
-  .scene-sticky { grid-template-columns: 1fr; gap: 18px; align-content: center; padding: 24px; }
-  .scene-copy p:nth-of-type(n + 2) { display: none; }
-  .scene-stage { max-height: 54vh; padding: 14px; }
+.scene-sticky { grid-template-columns: 1fr; gap: 18px; align-content: center; padding: 24px; }
+
+.scene-copy p:nth-of-type(n + 2) { display: none; }
+
+.scene-stage { max-height: 54vh; padding: 14px; }
 }
 
 /* Scroll-linked movement is what this preference asks us to avoid: collapse the
@@ -265,3 +310,4 @@
   .scene-stage { max-height: none; }
   .story-hero { min-height: auto; padding: 90px 28px; }
 }
+

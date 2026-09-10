@@ -1,6 +1,5 @@
 /* Design tokens. Liquid Glass is a dual-mode material, so every surface colour is
    defined for light and dark and the whole UI switches on one attribute. */
-
 :root {
   color-scheme: light dark;
 
@@ -87,7 +86,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+:root:not([data-theme="light"]) {
     --bg: #131110;
     --bg-tint-a: #b8542f; --bg-tint-b: #2f6a58; --bg-tint-c: #4c3f7d;
     --ink: #f4efe8; --ink-2: #a89e93; --ink-3: #7d7268;
@@ -104,3 +103,4 @@
     --shadow-lift: 0 2px 6px rgba(0, 0, 0, .45), 0 20px 50px -16px rgba(0, 0, 0, .9);
   }
 }
+

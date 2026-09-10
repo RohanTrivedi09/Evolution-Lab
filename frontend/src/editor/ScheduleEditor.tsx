@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { evaluateSchedule } from '../api/client';
 import type { Dataset, Schedule, Score } from '../types';
 import { TimetableGrid } from '../components/TimetableGrid';
