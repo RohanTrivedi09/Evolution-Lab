@@ -1,0 +1,778 @@
+{
+  "name": "Adani University - Sem VII CSE (AI-ML)",
+  "description": "Real timetable inputs for sections A, B and C, transcribed from the departmental timetables effective 03/08/2026. The 12:10 lunch period is omitted so nothing can be scheduled into it.",
+  "days": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+  ],
+  "periods": [
+    "09:10",
+    "10:10",
+    "11:10",
+    "13:10",
+    "14:10",
+    "15:10",
+    "16:10",
+    "17:10"
+  ],
+  "rooms": [
+    {
+      "id": "201",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "202",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "203",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "302",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "303A",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "303B",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "401",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "402",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "403",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "404",
+      "capacity": 70,
+      "type": "lecture"
+    },
+    {
+      "id": "3A",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "3B",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "3C",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "4A",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "4B",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "4C",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "5A",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "5B",
+      "capacity": 30,
+      "type": "lab"
+    },
+    {
+      "id": "5C",
+      "capacity": 30,
+      "type": "lab"
+    }
+  ],
+  "faculty": [
+    {
+      "id": "SK",
+      "name": "Ms. Swati K"
+    },
+    {
+      "id": "SV",
+      "name": "Dr. Spoorthy V."
+    },
+    {
+      "id": "AD",
+      "name": "Dr. Aarti Dadheech"
+    },
+    {
+      "id": "ABS",
+      "name": "Dr. Abhay Sharma"
+    },
+    {
+      "id": "HP",
+      "name": "Ms. Himani Prajapati"
+    },
+    {
+      "id": "VR",
+      "name": "Dr. Vaishnavee Rathod"
+    },
+    {
+      "id": "NP",
+      "name": "Ms. Neha Pandya"
+    },
+    {
+      "id": "TM",
+      "name": "Dr. Tejas Modi"
+    },
+    {
+      "id": "ASE",
+      "name": "Ms. Ambika Sewaniya"
+    },
+    {
+      "id": "KD",
+      "name": "Dr. Krupali Donda"
+    },
+    {
+      "id": "ASR",
+      "name": "Dr. Anubhav Srivastava"
+    },
+    {
+      "id": "AR",
+      "name": "Ms. Alpa Rupala"
+    }
+  ],
+  "groups": [
+    {
+      "id": "A1",
+      "size": 25
+    },
+    {
+      "id": "A2",
+      "size": 25
+    },
+    {
+      "id": "A3",
+      "size": 25
+    },
+    {
+      "id": "B1",
+      "size": 25
+    },
+    {
+      "id": "B2",
+      "size": 25
+    },
+    {
+      "id": "B3",
+      "size": 25
+    },
+    {
+      "id": "C1",
+      "size": 25
+    },
+    {
+      "id": "C2",
+      "size": 25
+    },
+    {
+      "id": "C3",
+      "size": 25
+    }
+  ],
+  "courses": [
+    {
+      "id": "SC-A",
+      "name": "Soft Computing (A)",
+      "faculty_id": "SK",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CV-A",
+      "name": "Computer Vision and Applications (A)",
+      "faculty_id": "AD",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "GAI-A",
+      "name": "Generative AI (A)",
+      "faculty_id": "SV",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CCM-A",
+      "name": "Cyber Crime Mitigation (A)",
+      "faculty_id": "ABS",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "BDA-A",
+      "name": "Big Data Analysis (A)",
+      "faculty_id": "VR",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SIN-A",
+      "name": "Social Information Network (A)",
+      "faculty_id": "NP",
+      "group_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SC-B",
+      "name": "Soft Computing (B)",
+      "faculty_id": "SK",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "GAI-B",
+      "name": "Generative AI (B)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CCM-B",
+      "name": "Cyber Crime Mitigation (B)",
+      "faculty_id": "ASR",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CV-B",
+      "name": "Computer Vision and Applications (B)",
+      "faculty_id": "ASE",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SIN-B",
+      "name": "Social Information Network (B)",
+      "faculty_id": "NP",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "BDA-B",
+      "name": "Big Data Analysis (B)",
+      "faculty_id": "VR",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 2,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "RL-B",
+      "name": "Reinforced Learning (B)",
+      "faculty_id": "TM",
+      "group_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "sessions_per_week": 2,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SC-C",
+      "name": "Soft Computing (C)",
+      "faculty_id": "SK",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "GAI-C",
+      "name": "Generative AI (C)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CV-C",
+      "name": "Computer Vision and Applications (C)",
+      "faculty_id": "AD",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "CCM-C",
+      "name": "Cyber Crime Mitigation (C)",
+      "faculty_id": "ABS",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SIN-C",
+      "name": "Social Information Network (C)",
+      "faculty_id": "NP",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 3,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "BDA-C",
+      "name": "Big Data Analysis (C)",
+      "faculty_id": "VR",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 2,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "RL-C",
+      "name": "Reinforced Learning (C)",
+      "faculty_id": "TM",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 2,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "NLP-C",
+      "name": "Computational Linguistics and NLP (C)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "sessions_per_week": 2,
+      "duration": 1,
+      "room_type": "lecture"
+    },
+    {
+      "id": "SCL-A1",
+      "name": "Soft Computing Lab (A1)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "A1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-A2",
+      "name": "Soft Computing Lab (A2)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "A2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-A3",
+      "name": "Soft Computing Lab (A3)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "A3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-A1",
+      "name": "Computer Vision and Applications Lab (A1)",
+      "faculty_id": "ASE",
+      "group_ids": [
+        "A1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-A2",
+      "name": "Computer Vision and Applications Lab (A2)",
+      "faculty_id": "AD",
+      "group_ids": [
+        "A2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-A3",
+      "name": "Computer Vision and Applications Lab (A3)",
+      "faculty_id": "AD",
+      "group_ids": [
+        "A3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-A1",
+      "name": "Generative AI Lab (A1)",
+      "faculty_id": "SV",
+      "group_ids": [
+        "A1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-A2",
+      "name": "Generative AI Lab (A2)",
+      "faculty_id": "SV",
+      "group_ids": [
+        "A2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-A3",
+      "name": "Generative AI Lab (A3)",
+      "faculty_id": "SV",
+      "group_ids": [
+        "A3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-B1",
+      "name": "Soft Computing Lab (B1)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "B1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-B2",
+      "name": "Soft Computing Lab (B2)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "B2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-B3",
+      "name": "Soft Computing Lab (B3)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "B3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-B1",
+      "name": "Computer Vision and Applications Lab (B1)",
+      "faculty_id": "ASE",
+      "group_ids": [
+        "B1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-B2",
+      "name": "Computer Vision and Applications Lab (B2)",
+      "faculty_id": "ASE",
+      "group_ids": [
+        "B2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-B3",
+      "name": "Computer Vision and Applications Lab (B3)",
+      "faculty_id": "AD",
+      "group_ids": [
+        "B3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-B1",
+      "name": "Generative AI Lab (B1)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "B1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-B2",
+      "name": "Generative AI Lab (B2)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "B2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-B3",
+      "name": "Generative AI Lab (B3)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "B3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-C1",
+      "name": "Soft Computing Lab (C1)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "C1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-C2",
+      "name": "Soft Computing Lab (C2)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "C2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "SCL-C3",
+      "name": "Soft Computing Lab (C3)",
+      "faculty_id": "HP",
+      "group_ids": [
+        "C3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-C1",
+      "name": "Computer Vision and Applications Lab (C1)",
+      "faculty_id": "AR",
+      "group_ids": [
+        "C1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-C2",
+      "name": "Computer Vision and Applications Lab (C2)",
+      "faculty_id": "AR",
+      "group_ids": [
+        "C2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "CVL-C3",
+      "name": "Computer Vision and Applications Lab (C3)",
+      "faculty_id": "AR",
+      "group_ids": [
+        "C3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-C1",
+      "name": "Generative AI Lab (C1)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "C1"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "GAIL-C2",
+      "name": "Generative AI Lab (C2)",
+      "faculty_id": "KD",
+      "group_ids": [
+        "C2"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    },
+    {
+      "id": "NLPL-C3",
+      "name": "Computational Linguistics and NLP Lab (C3)",
+      "faculty_id": "TM",
+      "group_ids": [
+        "C3"
+      ],
+      "sessions_per_week": 1,
+      "duration": 1,
+      "room_type": "lab"
+    }
+  ]
+}
