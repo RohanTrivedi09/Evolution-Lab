@@ -22,6 +22,26 @@ export const listDatasets = () =>
 
 export const getDataset = (id: string) => request<Dataset>(`/datasets/${id}`);
 
+export type Validation = { valid: boolean; errors: string[]; sessions?: number;
+                           summary?: Record<string, number> };
+
+/** Check a pasted dataset without storing it. Always resolves: errors are the answer. */
+export const validateDataset = (dataset: unknown) =>
+  post<Validation>('/datasets/validate', { dataset });
+
+/** Store a pasted dataset for this session and return the id to run it under. */
+export async function uploadDataset(dataset: unknown) {
+  const response = await fetch(`${API}/datasets`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ dataset }),
+  });
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error((body?.detail?.errors ?? ['Could not store dataset']).join('; '));
+  }
+  return body as { dataset_id: string; name: string; sessions: number };
+}
+
 export const getRun = (id: string) => request<Run>(`/runs/${id}`);
 
 export const startRun = (body: Record<string, unknown>) =>
