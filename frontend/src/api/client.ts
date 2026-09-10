@@ -1,4 +1,4 @@
-import type { Comparison, Dataset, Run, Schedule, Score } from '../types';
+import type { Comparison, Dataset, Experiment, Run, Schedule, Score } from '../types';
 
 export const API = 'http://localhost:8000/api';
 
@@ -33,6 +33,11 @@ export const startComparison = (body: Record<string, unknown>) =>
   post<Comparison>('/comparisons', body);
 
 export const getComparison = (id: string) => request<Comparison>(`/comparisons/${id}`);
+
+export const startExperiment = (body: Record<string, unknown>) =>
+  post<Experiment>('/experiments', body);
+
+export const getExperiment = (id: string) => request<Experiment>(`/experiments/${id}`);
 
 /** Score a hand-edited timetable with the same evaluator the optimizers use. */
 export const evaluateSchedule = (datasetId: string, schedule: Schedule) =>

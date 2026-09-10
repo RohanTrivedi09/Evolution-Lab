@@ -97,6 +97,33 @@ export type Comparison = {
   max_evaluations?: number;
 };
 
+export type ExperimentRow = {
+  algorithm: string;
+  runs: number;
+  mean_cost: number;
+  std_cost: number;
+  best_cost: number;
+  worst_cost: number;
+  median_cost: number;
+  feasible_rate: number;
+  mean_evaluations_to_feasible: number | null;
+  mean_runtime_ms: number;
+  seed_wins: number;
+};
+
+export type Experiment = {
+  experiment_id: string;
+  status: string;
+  progress?: number;
+  error?: string;
+  dataset_id?: string;
+  seeds?: number[];
+  max_evaluations?: number;
+  total_trials?: number;
+  summary?: ExperimentRow[];
+  trials?: { algorithm: string; seed: number; total_cost: number; hard_violations: number }[];
+};
+
 export const ALGORITHMS = [
   'hill_climbing', 'simulated_annealing', 'genetic_algorithm', 'particle_swarm',
 ] as const;

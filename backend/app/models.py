@@ -101,6 +101,21 @@ class RunRequest(BaseModel):
     initial_schedule: dict[str, ScheduledSlot] | None = None
 
 
+class ExperimentRequest(BaseModel):
+    """A repeated-seed comparison: every algorithm, every seed, one shared budget."""
+
+    dataset_id: str = "small-college"
+    algorithms: list[AlgorithmName] | None = None
+    seeds: list[int] | None = None
+    seed_count: int = Field(default=5, ge=1, le=30)
+    max_evaluations: int = Field(default=2000, gt=0, le=2_000_000)
+    parameters: dict[str, float | int] = {}
+    weights: Weights = Weights()
+
+    def resolved_seeds(self) -> list[int]:
+        return self.seeds if self.seeds else list(range(1, self.seed_count + 1))
+
+
 class ScheduleEvaluateRequest(BaseModel):
     """Score a hand-edited timetable without starting a run."""
 
