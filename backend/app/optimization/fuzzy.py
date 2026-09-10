@@ -12,6 +12,7 @@ centroid.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 # Triangular sets as (left foot, peak, right foot). A shoulder is written with its
@@ -84,7 +85,13 @@ def fuzzify(inputs: dict[str, float]) -> dict[str, dict[str, float]]:
 
 def infer(congestion: float, fragmentation: float, edge_load: float) -> dict:
     """Return the defuzzified discomfort in [0, 1] plus the reasoning behind it."""
-    clamp = lambda v: min(1.0, max(0.0, v))
+    def clamp(value: float) -> float:
+        # A non-finite input means a caller computed a ratio wrongly. Silently
+        # coercing it would hand back a confident score built on nothing.
+        if not math.isfinite(value):
+            raise ValueError(f"fuzzy input must be finite, got {value!r}")
+        return min(1.0, max(0.0, value))
+
     inputs = {"congestion": clamp(congestion), "fragmentation": clamp(fragmentation),
               "edge_load": clamp(edge_load)}
     memberships = fuzzify(inputs)

@@ -43,16 +43,19 @@ class Course(BaseModel):
     preferred_periods: list[PreferredPeriod] = []
 
 
+MAX_SESSIONS = 2000
+
+
 class Dataset(BaseModel):
     id: str | None = None
     name: str | None = None
     description: str | None = None
-    days: list[str] = Field(min_length=1)
-    periods: list[str] = Field(min_length=1)
-    rooms: list[Room] = Field(min_length=1)
-    faculty: list[Faculty] = Field(min_length=1)
-    groups: list[Group] = Field(min_length=1)
-    courses: list[Course] = Field(min_length=1)
+    days: list[str] = Field(min_length=1, max_length=14)
+    periods: list[str] = Field(min_length=1, max_length=24)
+    rooms: list[Room] = Field(min_length=1, max_length=200)
+    faculty: list[Faculty] = Field(min_length=1, max_length=500)
+    groups: list[Group] = Field(min_length=1, max_length=200)
+    courses: list[Course] = Field(min_length=1, max_length=500)
 
     @model_validator(mode="after")
     def validate_references(self) -> "Dataset":
@@ -70,6 +73,9 @@ class Dataset(BaseModel):
                 errors.append(f"Course {course.id} requires unavailable room type {course.room_type}")
         if len(set(self.days)) != len(self.days) or len(set(self.periods)) != len(self.periods):
             errors.append("Days and periods must not contain duplicates")
+        sessions = sum(course.sessions_per_week for course in self.courses)
+        if sessions > MAX_SESSIONS:
+            errors.append(f"Dataset expands to {sessions} sessions, above the {MAX_SESSIONS} limit")
         if errors:
             raise ValueError("; ".join(errors))
         return self
@@ -79,10 +85,10 @@ AlgorithmName = Literal["hill_climbing", "simulated_annealing", "genetic_algorit
 
 
 class Weights(BaseModel):
-    hard: float = 10000
-    soft: float = 100
-    gaps: float = 10
-    fragmentation: float = 5
+    hard: float = Field(default=10000, ge=0)
+    soft: float = Field(default=100, ge=0)
+    gaps: float = Field(default=10, ge=0)
+    fragmentation: float = Field(default=5, ge=0)
     #: Replace the crisp gap and fragmentation terms with a Mamdani fuzzy
     #: discomfort score. Off by default so existing results stay comparable.
     fuzzy: bool = False
