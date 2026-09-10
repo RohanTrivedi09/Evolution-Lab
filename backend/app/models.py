@@ -19,6 +19,7 @@ class Faculty(BaseModel):
     id: str
     name: str
     unavailable: list[Unavailable] = []
+    undesirable: list[Unavailable] = []
 
 
 class Group(BaseModel):
@@ -84,11 +85,27 @@ class Weights(BaseModel):
     fragmentation: float = 5
 
 
+class ScheduledSlot(BaseModel):
+    day: str
+    period: str
+    room_id: str
+
+
 class RunRequest(BaseModel):
     dataset_id: str = "small-college"
     algorithm: AlgorithmName = "hill_climbing"
     seed: int = 42
     parameters: dict[str, float | int] = {}
+    weights: Weights = Weights()
+    max_evaluations: int | None = Field(default=None, gt=0, le=2_000_000)
+    initial_schedule: dict[str, ScheduledSlot] | None = None
+
+
+class ScheduleEvaluateRequest(BaseModel):
+    """Score a hand-edited timetable without starting a run."""
+
+    dataset_id: str = "small-college"
+    schedule: dict[str, ScheduledSlot]
     weights: Weights = Weights()
 
 
