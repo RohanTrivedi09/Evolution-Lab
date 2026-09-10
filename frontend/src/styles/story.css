@@ -1,0 +1,210 @@
+/* Scrollytelling view. Shares the lab's palette; laid out for a sticky stage. */
+
+.view-switch {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 50;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #fffdf9;
+  border: 1px solid #ded6ca;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(36, 33, 31, .07);
+}
+.view-switch button {
+  background: transparent;
+  color: #726b63;
+  border-radius: 999px;
+  padding: 7px 16px;
+  font: 500 13px inherit;
+  width: auto;
+}
+.view-switch button.active { background: #24211f; color: #fffdf9; }
+
+.story { max-width: none; padding: 0; }
+
+.story-hero {
+  min-height: 92vh;
+  display: grid;
+  align-content: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  border: 0;
+}
+.story-hero h1 { font-size: clamp(44px, 7vw, 82px); letter-spacing: -3px; margin: 10px 0 20px; }
+.story-hero h1 i { font-family: Georgia, serif; font-weight: 400; color: #d86f4d; }
+.story-hero .lede { max-width: 620px; font-size: 19px; }
+.scroll-cue { margin-top: 44px; font: 12px 'DM Mono'; color: #857c73; letter-spacing: 1px; }
+
+.story-loading {
+  min-height: 80vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 6px;
+}
+.story-loading p { color: #726b63; }
+
+/* --- a scrubbed scene ------------------------------------------------------------- */
+
+.scene { position: relative; }
+.scene-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 52px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.scene-copy h2 { font-size: clamp(26px, 3vw, 36px); letter-spacing: -1px; margin: 6px 0 18px; }
+.scene-copy p { color: #5f574f; font-size: 16px; margin: 0 0 14px; max-width: 46ch; }
+.scene-rail { height: 3px; background: #e6ded2; border-radius: 3px; margin-top: 26px; overflow: hidden; }
+.scene-rail span { display: block; height: 100%; background: #d86f4d; }
+
+.scene-stage {
+  --tint: #d86f4d;
+  background: #fffdf9;
+  border: 1px solid #ded6ca;
+  border-radius: 10px;
+  padding: 16px;
+  max-height: 88vh;
+  overflow: auto;
+}
+
+.scene-metrics, .scene-readout, .counter-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+}
+.scene-metrics { margin-bottom: 12px; }
+.scene-metrics > div, .scene-readout > div, .counter-facts > div {
+  background: #f8f4ed;
+  border: 1px solid #e6ded2;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.scene-metrics span, .scene-readout span, .counter-facts span {
+  display: block; font-size: 11px; color: #857c73;
+}
+.scene-metrics b, .scene-readout b, .counter-facts b {
+  display: block; font: 500 17px 'DM Mono'; margin-top: 3px;
+}
+.scene-metrics b.good { color: #597d73; }
+.scene-metrics b.bad { color: #b54d42; }
+.scene-readout { margin-top: 12px; }
+.scene-event {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--tint);
+  background: #f8f4ed;
+  font-size: 13px;
+  color: #5f574f;
+}
+
+.counter-stage { display: grid; place-content: center; text-align: center; min-height: 340px; }
+.counter { font: 500 clamp(38px, 6vw, 70px) 'DM Mono'; color: #24211f; letter-spacing: -2px; }
+.counter em { font-style: normal; color: #d86f4d; margin-left: 10px; }
+.counter sup { font-size: .5em; }
+.counter-caption { color: #857c73; font: 12px 'DM Mono'; letter-spacing: 1.5px; text-transform: uppercase; }
+.counter-facts { margin-top: 28px; grid-template-columns: repeat(3, 1fr); }
+
+.scene-legend { display: grid; gap: 6px; margin-top: 16px; }
+.scene-legend > div {
+  display: grid;
+  grid-template-columns: 12px 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee7dd;
+  font-size: 13px;
+}
+.scene-legend i { width: 12px; height: 12px; border-radius: 3px; display: block; }
+.scene-legend b { font: 500 15px 'DM Mono'; }
+.scene-legend small { color: #857c73; font-size: 11px; }
+
+.story-finale {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 22vh 32px 20vh;
+  text-align: center;
+}
+.story-finale h2 { font-size: clamp(26px, 4vw, 40px); letter-spacing: -1px; margin: 8px 0 16px; }
+.story-finale p { color: #5f574f; font-size: 17px; margin-bottom: 30px; }
+.story-finale button { width: auto; padding: 15px 28px; }
+
+/* --- week grid -------------------------------------------------------------------- */
+
+.week-grid { display: grid; gap: 4px; }
+.week-corner, .week-day, .week-period {
+  font: 11px 'DM Mono'; color: #857c73; padding: 6px 4px;
+}
+.week-day { text-align: center; color: #9a5741; }
+.week-cell {
+  min-height: 44px;
+  background: #f8f4ed;
+  border: 1px solid #e6ded2;
+  border-radius: 5px;
+  padding: 4px;
+  display: grid;
+  align-content: start;
+  gap: 3px;
+}
+.week-cell.occupied { background: #fffdf9; }
+.chip {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  background: #f5d8cb;
+  color: #813f2e;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 5px 6px;
+  display: grid;
+  gap: 1px;
+  font: inherit;
+  cursor: default;
+}
+.chip b { font-size: 11px; font-weight: 600; }
+.chip small { font: 9px 'DM Mono'; opacity: .75; }
+.chip.selected { outline: 3px solid #597d73; }
+/* Clashes are marked by a badge and a border, never by colour alone. */
+.chip.clash { background: #fbe3de; border-color: #b54d42; border-style: dashed; }
+.clash-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #b54d42;
+  color: #fff;
+  font: 700 11px/16px 'DM Mono';
+  text-align: center;
+}
+
+@media (max-width: 940px) {
+  .scene-sticky { grid-template-columns: 1fr; gap: 20px; align-content: center; padding: 24px; }
+  .scene-copy p:nth-of-type(n + 2) { display: none; }
+  .scene-stage { max-height: 52vh; padding: 14px; }
+  .counter-facts { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Scroll-linked movement is the thing this preference asks us not to do: collapse the
+   scenes to their natural height and render the final state instead. */
+@media (prefers-reduced-motion: reduce) {
+  .scene, .scene-static { height: auto !important; }
+  .scene-sticky, .scene-static .scene-sticky {
+    position: static;
+    height: auto;
+    padding: 70px 32px;
+  }
+  .scene-stage { max-height: none; }
+  .story-hero { min-height: auto; padding: 90px 32px; }
+}
