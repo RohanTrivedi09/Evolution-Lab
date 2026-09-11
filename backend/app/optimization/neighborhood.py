@@ -36,6 +36,12 @@ def change_room(problem: Problem, candidate: Candidate, rng: random.Random) -> C
     return child
 
 
+def uniform_crossover(left: Candidate, right: Candidate,
+                      rng: random.Random) -> Candidate:
+    """Build a child by taking each session's placement from one parent or the other."""
+    return [(a if rng.random() < 0.5 else b).copy() for a, b in zip(left, right)]
+
+
 OPERATORS = (move_session, swap_sessions, change_room)
 OPERATOR_NAMES = {operator: operator.__name__ for operator in OPERATORS}
 

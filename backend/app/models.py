@@ -83,7 +83,8 @@ class Dataset(BaseModel):
         return self
 
 
-AlgorithmName = Literal["hill_climbing", "simulated_annealing", "genetic_algorithm", "particle_swarm"]
+AlgorithmName = Literal["hill_climbing", "simulated_annealing", "genetic_algorithm",
+                        "particle_swarm", "nsga2"]
 
 
 class Weights(BaseModel):

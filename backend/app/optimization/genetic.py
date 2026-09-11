@@ -11,6 +11,7 @@ import time
 
 from .base import Optimizer, OptimizationResult
 from .evaluator import Score
+from .neighborhood import uniform_crossover
 from .representation import Candidate
 
 Individual = tuple[Candidate, Score]
@@ -20,7 +21,7 @@ class GeneticAlgorithm(Optimizer):
     name = "genetic_algorithm"
 
     def _uniform_crossover(self, left: Candidate, right: Candidate) -> Candidate:
-        return [(a if self.rng.random() < 0.5 else b).copy() for a, b in zip(left, right)]
+        return uniform_crossover(left, right, self.rng)
 
     def _one_point_crossover(self, left: Candidate, right: Candidate) -> Candidate:
         if len(left) < 2:

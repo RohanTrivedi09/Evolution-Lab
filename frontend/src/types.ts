@@ -78,6 +78,13 @@ export type Point = {
   convergence_percentage?: number;
 };
 
+export type ParetoSolution = {
+  objectives: Record<string, number>;
+  total_cost: number;
+  hard_violations: number;
+  schedule: Schedule;
+};
+
 export type Result = {
   schedule: Schedule;
   score: Score;
@@ -85,6 +92,7 @@ export type Result = {
   runtime_ms: number;
   evaluations: number;
   trajectory?: { evaluations: number; cost: number; placement: (string | number)[][] }[];
+  pareto_front?: ParetoSolution[];
 };
 
 export type Run = {
@@ -133,10 +141,26 @@ export type Experiment = {
 };
 
 export const ALGORITHMS = [
+  'hill_climbing', 'simulated_annealing', 'genetic_algorithm', 'particle_swarm', 'nsga2',
+] as const;
+
+/** Human labels for the objectives NSGA-II optimises simultaneously. */
+export const OBJECTIVE_LABELS: Record<string, string> = {
+  hard_violations: 'Hard violations',
+  soft_penalty: 'Soft penalties',
+  group_gaps: 'Student gaps',
+  room_utilisation_imbalance: 'Room imbalance',
+};
+
+export type AlgorithmName = (typeof ALGORITHMS)[number];
+
+/** The strategies that minimise the same weighted sum and can be raced against each
+ *  other. NSGA-II is excluded: it optimises a vector, so it has no scalar rank. */
+export const COMPARISON_ALGORITHMS = [
   'hill_climbing', 'simulated_annealing', 'genetic_algorithm', 'particle_swarm',
 ] as const;
 
-export type AlgorithmName = (typeof ALGORITHMS)[number];
+export type ComparisonAlgorithm = (typeof COMPARISON_ALGORITHMS)[number];
 
 /** "hill_climbing" -> "hill climbing" */
 export const label = (value: string) => value.split('_').join(' ');

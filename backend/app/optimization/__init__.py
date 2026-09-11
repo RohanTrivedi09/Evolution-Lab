@@ -8,7 +8,9 @@ from .base import HISTORY_POINTS, TRAJECTORY_POINTS, Optimizer, OptimizationResu
 from .evaluator import HARD_CATEGORIES, SOFT_CATEGORIES, Score, evaluate
 from .genetic import GeneticAlgorithm
 from .local_search import HillClimbing, SimulatedAnnealing
-from .neighborhood import OPERATORS, random_neighbor
+from .neighborhood import OPERATORS, random_neighbor, uniform_crossover
+from .nsga2 import NSGA2
+from .pareto import OBJECTIVE_KEYS, crowding_distance, dominates, non_dominated_sort
 from .representation import Assignment, Candidate, Problem, Session
 from .swarm import ParticleSwarm
 
@@ -17,7 +19,15 @@ STRATEGIES: dict[str, type[Optimizer]] = {
     "simulated_annealing": SimulatedAnnealing,
     "genetic_algorithm": GeneticAlgorithm,
     "particle_swarm": ParticleSwarm,
+    "nsga2": NSGA2,
 }
+
+#: Strategies that minimise the same weighted sum and can therefore be ranked against
+#: one another. NSGA-II is excluded deliberately: it optimises a vector, so placing it
+#: in a scalar race would compare answers to different questions.
+COMPARISON_STRATEGIES: tuple[str, ...] = (
+    "hill_climbing", "simulated_annealing", "genetic_algorithm", "particle_swarm",
+)
 
 DEFAULT_BUDGET = 2000
 
@@ -54,7 +64,9 @@ def optimizer_for(name: str, problem: Problem, weights: Weights, seed: int, para
 
 
 __all__ = [
-    "Assignment", "Candidate", "DEFAULT_BUDGET", "GeneticAlgorithm", "HARD_CATEGORIES",
+    "Assignment", "COMPARISON_STRATEGIES", "Candidate", "DEFAULT_BUDGET", "NSGA2",
+    "OBJECTIVE_KEYS", "crowding_distance", "dominates", "non_dominated_sort",
+    "uniform_crossover", "GeneticAlgorithm", "HARD_CATEGORIES",
     "HISTORY_POINTS", "HillClimbing", "OPERATORS", "OptimizationResult", "Optimizer",
     "ParticleSwarm", "Problem", "SOFT_CATEGORIES", "STRATEGIES", "Score", "Session",
     "SimulatedAnnealing", "TRAJECTORY_POINTS", "evaluate", "optimizer_for",

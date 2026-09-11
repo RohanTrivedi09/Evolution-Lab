@@ -15,7 +15,7 @@ from dataclasses import asdict, dataclass
 
 from ..data import load_dataset
 from ..models import ExperimentRequest
-from ..optimization import STRATEGIES, Problem, optimizer_for
+from ..optimization import COMPARISON_STRATEGIES, Problem, optimizer_for
 
 
 @dataclass
@@ -93,7 +93,7 @@ class ExperimentManager:
 
     def create(self, request: ExperimentRequest) -> dict:
         load_dataset(request.dataset_id)  # raises KeyError for unknown datasets
-        algorithms = request.algorithms or list(STRATEGIES)
+        algorithms = request.algorithms or list(COMPARISON_STRATEGIES)
         seeds = request.resolved_seeds()
         experiment_id = uuid.uuid4().hex
         record = {

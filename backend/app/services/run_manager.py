@@ -11,7 +11,8 @@ import uuid
 
 from ..data import load_dataset
 from ..models import RunRequest
-from ..optimization import DEFAULT_BUDGET, Problem, optimizer_for, resolve_budget
+from ..optimization import (COMPARISON_STRATEGIES, DEFAULT_BUDGET, Problem,
+                            optimizer_for, resolve_budget)
 
 TERMINAL = {"completed", "failed", "cancelled"}
 
@@ -130,12 +131,10 @@ class RunManager:
         The equal budget is the whole point: comparing algorithms that were allowed
         different numbers of fitness evaluations measures the budget, not the algorithm.
         """
-        from ..optimization import STRATEGIES
-
         budget = request.max_evaluations or DEFAULT_BUDGET
         comparison_id = uuid.uuid4().hex
         run_ids = [self.create_run(request.model_copy(update={"algorithm": name}), budget)["run_id"]
-                   for name in STRATEGIES]
+                   for name in COMPARISON_STRATEGIES]
         record = {"comparison_id": comparison_id, "status": "running",
                   "run_ids": run_ids, "max_evaluations": budget,
                   "dataset_id": request.dataset_id, "seed": request.seed}

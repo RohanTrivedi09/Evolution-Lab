@@ -54,8 +54,33 @@ objective cares about.
 - **Objective weights.** Raise gaps to buy compact days at the cost of preferences.
   Weights cannot go negative; that would make the search maximise clashes.
 - **Fuzzy comfort model.** A crisp/fuzzy toggle, described below.
+- **Pareto front.** NSGA-II returns several schedules that no other schedule beats on
+  every objective; pick a point on the scatter to load its timetable.
 - **Paste your own dataset.** Validated with field-level errors and runnable immediately.
 - **Export.** JSON report, CSV timetable, or the browser's print view.
+
+## Multi-objective search
+
+The four scalar strategies minimise one weighted sum, which decides the trade-off before
+the search begins. `nsga2` keeps the objectives named in spec section 10.5 apart -
+hard violations, soft penalties, student gaps and room-utilisation imbalance - and
+returns the non-dominated set: schedules that each beat the others at something.
+
+Ranking uses **constrained domination**, not plain Pareto dominance. Under plain
+dominance a hard violation is one objective of four, so it carries a quarter of the
+selection pressure and the search never drove clashes to zero: on the real instance it
+was still leaving 37 or more at 6,000 evaluations. With feasibility ranked ahead of
+every objective that falls to 3-5, and to zero by 20,000. Between two infeasible
+schedules the smaller violation count wins; on a tie the objectives decide.
+
+The reported front is restricted to feasible members whenever any exist. A schedule with
+two clashes and perfect room balance is formally non-dominated, but this project treats
+hard constraints as dominant, so offering it as a "trade-off" would contradict the
+evaluator.
+
+NSGA-II is deliberately **excluded from races and repeated-seed studies**. It optimises a
+vector, so ranking it against the scalar strategies would compare answers to different
+questions. Select it on its own.
 
 ## Fuzzy inference
 
@@ -108,6 +133,8 @@ backend/app/
     base.py                 Budget accounting, history recording, trajectory sampling
     local_search.py         Hill Climbing, Simulated Annealing
     genetic.py              GA with uniform / one-point crossover and cached fitness
+    pareto.py               Dominance, constrained dominance, fast sort, crowding
+    nsga2.py                Multi-objective search over the four objectives
     swarm.py                Discrete PSO (documented adaptation, not continuous PSO)
   services/run_manager.py   Run lifecycle, cancellation, expiry
   api/                      routes_datasets, routes_runs, routes_schedule
@@ -167,6 +194,11 @@ and a threats-to-validity section covering the dataset assumptions.
 ## Known limitations
 
 - `Course.duration` is parsed but not yet used; every session occupies one period.
+- NSGA-II needs a far larger budget than the scalar strategies to reach feasibility on a
+  realistic instance, because feasibility competes with three other objectives.
+- On small instances the front collapses to a single point: once a schedule is feasible
+  the remaining objectives stop competing. Multi-objective search only pays off where
+  they genuinely conflict.
 - Runs, experiments and pasted datasets are held in memory — nothing survives a restart.
 - `evaluations_to_feasible` is the first *recorded* feasible point; history is decimated
   to about 200 points, so it is approximate.

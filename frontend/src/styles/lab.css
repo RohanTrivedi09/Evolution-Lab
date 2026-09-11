@@ -444,3 +444,14 @@ header { display: block; }
   color: var(--bad); font-size: 13px; display: grid; gap: 4px;
 }
 
+
+/* Pareto front */
+.pareto-axes { display: flex; gap: 12px; margin: 14px 0 6px; }
+.pareto-axes label { max-width: 210px; }
+.pareto-picker { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.pareto-picker button { padding: 7px 14px; font-size: 12px; }
+.pareto-picker button.chosen {
+  background: color-mix(in oklab, var(--swarm) 26%, transparent);
+  border-color: color-mix(in oklab, var(--swarm) 55%, transparent);
+}
+.pareto .telemetry-grid { grid-template-columns: repeat(4, 1fr); margin-bottom: 16px; }

@@ -52,6 +52,40 @@ place depends heavily on where the swarm started.
 On the small dataset all four reach feasibility and finish within 300-500, which is why
 a realistic instance matters: the toy set cannot separate them.
 
+## Multi-objective search
+
+NSGA-II is not comparable to the four scalar strategies and is excluded from the race
+above: it optimises a vector rather than the weighted sum, so it has no scalar rank.
+
+Constrained domination is what makes it work at all. Hard violations are one objective of
+four, so under plain Pareto dominance they receive a quarter of the selection pressure:
+
+| Ranking | Budget | Hard violations remaining (3 seeds) |
+|---|---:|---|
+| Plain dominance | 6,000 | 37+ on every seed |
+| Constrained dominance | 6,000 | 3, 4, 5 |
+| Constrained dominance | 20,000 | 0, 0, 0 |
+
+Front size on `adani-sem7-cse`, all feasible, none dominated:
+
+| Budget | Feasible seeds | Front size | Runtime |
+|---:|---:|---|---:|
+| 8,000 | 0 / 3 | 11-17 | 5.1 s |
+| 12,000 | 2 / 3 | 8-11 | 7.6 s |
+| 20,000 | 3 / 3 | 3-23 | 12.5 s |
+
+At an equal 20,000 evaluations simulated annealing reaches 3,920 while NSGA-II's best
+member sits at 13,245-15,110. That is the expected cost of the extra information: the
+scalar search drives one number down, while NSGA-II spends its budget mapping a set of
+trade-offs.
+
+**Front size depends on the instance, and small instances are degenerate.** On
+`small-college` the front is a single point at every seed and budget tried - once a
+schedule is feasible, compactness, preferences and room balance stop competing. On
+`medium-college` fronts of 2-6 appear. The feature only earns its place on an instance
+where the objectives genuinely conflict, which is a result worth stating rather than
+hiding.
+
 ## Reproducing
 
 ```bash

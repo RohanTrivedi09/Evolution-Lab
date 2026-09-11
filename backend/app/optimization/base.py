@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import random
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable
 
 from ..models import Weights
@@ -28,6 +28,9 @@ class OptimizationResult:
     evaluations: int
     runtime_ms: float
     trajectory: list[dict]
+    #: Non-dominated solutions, for multi-objective strategies only. Empty otherwise,
+    #: so single-objective results are unchanged.
+    pareto_front: list[dict] = field(default_factory=list)
 
     def as_dict(self, problem: Problem) -> dict:
         return {
@@ -37,6 +40,7 @@ class OptimizationResult:
             "evaluations": self.evaluations,
             "runtime_ms": round(self.runtime_ms, 2),
             "trajectory": self.trajectory,
+            "pareto_front": self.pareto_front,
         }
 
 
@@ -128,9 +132,11 @@ class Optimizer:
         if self.progress_callback:
             self.progress_callback(point)
 
-    def finish(self, best: Candidate, best_score: Score, started: float) -> OptimizationResult:
+    def finish(self, best: Candidate, best_score: Score, started: float,
+               pareto_front: list[dict] | None = None) -> OptimizationResult:
         return OptimizationResult(best, best_score, self.history, self.evaluations,
-                                  (time.perf_counter() - started) * 1000, self.trajectory)
+                                  (time.perf_counter() - started) * 1000, self.trajectory,
+                                  pareto_front or [])
 
     def run(self) -> OptimizationResult:
         raise NotImplementedError

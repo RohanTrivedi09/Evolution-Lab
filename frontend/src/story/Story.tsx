@@ -4,8 +4,8 @@ import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'rec
 
 import { TimetableGrid } from '../components/TimetableGrid';
 import { getDataset, raceAll } from '../api/client';
-import { ALGORITHMS, label } from '../types';
-import type { AlgorithmName, Comparison, Dataset, Point, Run } from '../types';
+import { COMPARISON_ALGORITHMS, label } from '../types';
+import type { Comparison, ComparisonAlgorithm, Dataset, Point, Run } from '../types';
 import { Scene } from './Scene';
 
 const DATASET_ID = 'small-college';
@@ -26,7 +26,7 @@ const TINT: Record<string, string> = {
 
 type Readout = [string, React.ReactNode][];
 
-const NARRATIVE: Record<AlgorithmName, {
+const NARRATIVE: Record<ComparisonAlgorithm, {
   title: string;
   paragraphs: React.ReactNode[];
   readout: (point: Point) => Readout;
@@ -118,7 +118,7 @@ function Cost({ point }: { point?: Point }) {
 
 function AlgorithmScene({ run, dataset }: { run: Run; dataset: Dataset | null }) {
   const history = run.result?.history ?? [];
-  const copy = NARRATIVE[run.algorithm as AlgorithmName];
+  const copy = NARRATIVE[run.algorithm as ComparisonAlgorithm];
   if (!history.length || !copy) return null;
 
   return (
@@ -181,7 +181,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
 
   const runs = useMemo(() => {
     const byName = new Map((comparison?.runs ?? []).map(run => [run.algorithm, run]));
-    return ALGORITHMS.map(name => byName.get(name)).filter((run): run is Run => !!run?.result);
+    return COMPARISON_ALGORITHMS.map(name => byName.get(name)).filter((run): run is Run => !!run?.result);
   }, [comparison]);
 
   useEffect(() => {
