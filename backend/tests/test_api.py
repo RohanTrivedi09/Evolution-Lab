@@ -70,6 +70,18 @@ def test_comparison_gives_every_algorithm_the_same_budget():
         assert run["result"]["evaluations"] <= 200
 
 
+def test_comparison_honours_a_budget_sent_in_parameters():
+    """The Lab sends its budget inside `parameters`, as single runs accept it. A race
+    that ignored it ran every strategy at the 2,000 default whatever the user typed."""
+    created = client.post("/api/comparisons", json={
+        "parameters": {"max_evaluations": 150, "iterations": 80, "generations": 80},
+    }).json()
+    assert created["max_evaluations"] == 150
+    finished = wait_for(f"/api/comparisons/{created['comparison_id']}")
+    # Iteration counts translate to different budgets per strategy; they must not leak in.
+    assert {run["max_evaluations"] for run in finished["runs"]} == {150}
+
+
 def test_cancelling_a_finished_run_is_not_an_error():
     run_id = client.post("/api/runs", json={"max_evaluations": 20}).json()["run_id"]
     wait_for(f"/api/runs/{run_id}")
