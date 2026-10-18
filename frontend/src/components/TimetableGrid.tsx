@@ -62,7 +62,7 @@ export function TimetableGrid({ dataset, schedule, scope, animate = true, onSele
     : {};
 
   return (
-    <div className="week-grid" style={{ gridTemplateColumns: `64px repeat(${dataset.days.length}, minmax(0, 1fr))` }}>
+    <div className="week-grid" style={{ gridTemplateColumns: `64px repeat(${dataset.days.length}, minmax(0, 1fr))`, ['--days' as string]: dataset.days.length }}>
       <div className="week-corner" />
       {dataset.days.map(day => <div className="week-day" key={day}>{day}</div>)}
       {dataset.periods.map(period => (

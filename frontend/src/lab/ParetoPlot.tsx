@@ -34,7 +34,7 @@ export function ParetoPlot({ front, dataset }: { front: ParetoSolution[]; datase
     <section className="panel pareto">
       <div className="panel-title">
         <div>
-          <p className="eyebrow">PARETO FRONT · MULTI-OBJECTIVE</p>
+          <p className="eyebrow">Pareto front · multi-objective</p>
           <h2>{front.length} timetables, none better than the rest</h2>
         </div>
         <span>{front.length} non-dominated</span>

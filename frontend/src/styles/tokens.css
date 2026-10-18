@@ -19,9 +19,29 @@
   --r-xl: 26px;
   --r-pill: 999px;
 
-  /* Apple's standard easing plus a slight overshoot for press feedback. */
+  /* Motion, paced the way UIKit paces it: feedback is near-instant, state changes take
+     about a quarter second, and only content arriving on screen takes longer. Nothing
+     decorative should run past --dur-enter or loop forever. */
   --ease: cubic-bezier(.32, .72, 0, 1);
-  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --dur-feedback: .15s;
+  --dur-state: .25s;
+  --dur-enter: .4s;
+
+  /* Minimum hit target from the HIG. Dense clusters of secondary controls may drop to
+     the compact size, but only where the pointer is precise. */
+  --hit: 44px;
+  --hit-compact: 36px;
+
+  /* The HIG type scale (iOS default Dynamic Type sizes), so sizes come from one ladder
+     rather than being picked per rule. 11px is the floor for any text. */
+  --t-title2: 22px;
+  --t-body: 17px;
+  /* Also the floor for form fields: below 16px, iOS Safari zooms the page on focus. */
+  --t-callout: 16px;
+  --t-subhead: 15px;
+  --t-footnote: 13px;
+  --t-caption: 12px;
+  --t-caption2: 11px;
 
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI",
           system-ui, sans-serif;
@@ -29,6 +49,10 @@
 
   --blur: 22px;
   --blur-strong: 40px;
+}
+
+@media (pointer: coarse) {
+:root { --hit-compact: 44px; }
 }
 
 /* --- light ------------------------------------------------------------------------ */

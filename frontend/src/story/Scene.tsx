@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
+/**
+ * Scroll at each end of a scene during which nothing moves, as a share of its range.
+ * The copy gets read before the visual starts, and the final state holds long enough
+ * to register before the next scene takes the screen - the pacing of a product page,
+ * rather than an animation that is already half over when it arrives.
+ */
+const LEAD_IN = 0.12;
+const HOLD = 0.18;
+
 type SceneProps = {
   eyebrow: string;
   title: string;
@@ -17,6 +26,7 @@ type SceneProps = {
  *
  * Scroll position within the section maps to a step index, so the reader drives the
  * optimization forward with the scrollbar instead of watching it replay on a timer.
+ * The mapping rests for LEAD_IN at the start and HOLD at the end.
  *
  * Progress is measured directly from the section's own rect rather than through a
  * scroll-tracking helper: the section is the scroll range, one rect read per frame is
@@ -47,9 +57,10 @@ export function Scene({ eyebrow, title, paragraphs, steps, length = 300, visual 
       const range = height - window.innerHeight;
       // top === 0 when the section reaches the top of the viewport; -range when its
       // bottom reaches the bottom.
-      const progress = range > 0
+      const scrolled = range > 0
         ? Math.min(1, Math.max(0, -top / range))
         : (top <= 0 ? 1 : 0);
+      const progress = Math.min(1, Math.max(0, (scrolled - LEAD_IN) / (1 - LEAD_IN - HOLD)));
       if (railRef.current) railRef.current.style.width = `${progress * 100}%`;
       const next = Math.round(progress * lastStep);
       setStep(current => (current === next ? current : next));

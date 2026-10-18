@@ -123,7 +123,7 @@ function AlgorithmScene({ run, dataset }: { run: Run; dataset: Dataset | null })
 
   return (
     <Scene
-      eyebrow={`STRATEGY · ${label(run.algorithm).toUpperCase()}`}
+      eyebrow={`Strategy · ${label(run.algorithm)}`}
       title={copy.title}
       paragraphs={copy.paragraphs}
       steps={history.length}
@@ -204,7 +204,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
     return (
       <main className="story">
         <div className="story-loading">
-          
+          <div className="spinner" aria-hidden="true" />
           <h2>Running all four strategies…</h2>
           <p>{BUDGET.toLocaleString()} fitness evaluations each, on the same dataset and seed.</p>
         </div>
@@ -215,7 +215,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
   return (
     <main className="story">
       <header className="story-hero">
-        <p className="eyebrow">SOFT COMPUTING · SCROLLYTELLING</p>
+        <p className="eyebrow">Soft computing · scrollytelling</p>
         <h1>How four algorithms<br /><i>search</i> for a timetable</h1>
         <p className="lede">
           Every strategy below solves the same problem, scored by the same evaluator, on the
@@ -226,7 +226,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
       </header>
 
       <Scene
-        eyebrow="THE PROBLEM"
+        eyebrow="The problem"
         title="You cannot simply try them all"
         paragraphs={[
           <>There are {scale.sessions} sessions to place, and each one could go in any of {scale.slots} day-period-room combinations.</>,
@@ -257,7 +257,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
       {runs.map(run => <AlgorithmScene key={run.run_id} run={run} dataset={dataset} />)}
 
       <Scene
-        eyebrow="HEAD TO HEAD"
+        eyebrow="Head to head"
         title="Same problem, same budget, four answers"
         paragraphs={[
           'Cost is plotted against fitness evaluations rather than iterations. One hill-climbing iteration costs a single evaluation; one genetic generation costs a whole population — so an iteration axis would compare budgets, not strategies.',
@@ -297,7 +297,7 @@ export function Story({ onEnterLab }: { onEnterLab: () => void }) {
       />
 
       <section className="story-finale">
-        <p className="eyebrow">YOUR TURN</p>
+        <p className="eyebrow">Your turn</p>
         <h2>Soft computing does not hand you one answer.</h2>
         <p>
           It gives you a way to explore good answers under competing goals — and a way to

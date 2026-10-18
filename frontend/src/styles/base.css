@@ -6,12 +6,12 @@ html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: var(--t-body);
+  line-height: 1.47;
   color: var(--ink);
   background: var(--bg);
-  letter-spacing: -0.01em;
-  transition: background .4s var(--ease), color .4s var(--ease);
+  letter-spacing: -0.022em;
+  transition: background var(--dur-enter) var(--ease), color var(--dur-enter) var(--ease);
 }
 
 /* Glass needs something behind it. Over a flat fill a backdrop-filter renders as
@@ -44,42 +44,49 @@ h2 { font-size: clamp(20px, 2.2vw, 27px); }
 
 p { margin: 0 0 12px; }
 
+/* A sentence-case kicker in the accent colour, the way Apple labels a section. Small
+   tracked capitals in a monospace read as a terminal, not as a product. */
 .eyebrow {
-  margin: 0 0 8px;
-  font: 600 11px/1.4 var(--mono);
-  letter-spacing: .09em;
-  text-transform: uppercase;
+  margin: 0 0 6px;
+  font: 600 var(--t-footnote)/1.4 var(--font);
+  letter-spacing: -0.006em;
   color: var(--accent);
 }
 
-.lede { color: var(--ink-2); font-size: 17px; max-width: 56ch; }
+.lede { color: var(--ink-2); font-size: 21px; line-height: 1.38; max-width: 52ch; }
 
-.note { color: var(--ink-3); font-size: 13px; }
+.note { color: var(--ink-3); font-size: var(--t-footnote); }
 
-/* Metrics change constantly while scrubbing; tabular figures stop them jittering. */
-.metric strong, .scene-metrics b, .scene-readout b, .counter-facts b, .race-card b, .bar-row b, .telemetry-grid b, .counter, .scene-legend b {
-  font-family: var(--mono);
+/* Metrics change constantly while scrubbing; tabular figures stop them jittering.
+   SF Pro's tabular numerals do that without switching to a monospace face. */
+.metric strong, .scene-metrics b, .scene-readout b, .counter-facts b, .race-card b, .bar-row b, .telemetry-grid b, .counter, .scene-legend b, .live-actions b, .timeline article b, .fuzzy .rule-list b, .editor-bar .delta, td {
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
 }
 
 button {
-  font: 500 14px var(--font);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--hit);
+  font: 500 var(--t-subhead) var(--font);
   color: var(--ink);
   background: var(--glass-strong);
   border: 1px solid var(--edge);
   border-radius: var(--r-pill);
-  padding: 11px 20px;
+  padding: 0 20px;
   cursor: pointer;
   backdrop-filter: blur(var(--blur)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--blur)) saturate(180%);
   box-shadow: inset 0 1px 0 var(--specular), var(--shadow);
-  transition: transform .24s var(--ease), box-shadow .24s var(--ease), opacity .2s;
+  transition: transform var(--dur-state) var(--ease), box-shadow var(--dur-state) var(--ease),
+              opacity var(--dur-feedback) var(--ease);
 }
 
 button:hover:not(:disabled) { box-shadow: inset 0 1px 0 var(--specular), var(--shadow-lift); }
 
-button:active:not(:disabled) { transform: scale(.97); }
+/* Press feedback lands immediately; the release eases back at the normal pace. */
+button:active:not(:disabled) { transform: scale(.97); transition-duration: var(--dur-feedback); }
 
 button:disabled { opacity: .45; cursor: not-allowed; }
 
@@ -91,12 +98,13 @@ button.primary {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.28), var(--shadow);
 }
 
-label { display: grid; gap: 6px; font-size: 12px; color: var(--ink-2); }
+label { display: grid; gap: 6px; font-size: var(--t-footnote); color: var(--ink-2); }
 
 select, input {
   width: 100%;
   min-width: 0;
-  font: 15px var(--font);
+  min-height: var(--hit);
+  font: var(--t-callout) var(--font);
   color: var(--ink);
   background-color: var(--glass-sunken);
   border: 1px solid var(--edge);
@@ -104,7 +112,7 @@ select, input {
   padding: 10px 12px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: border-color .2s var(--ease), background-color .2s var(--ease);
+  transition: border-color var(--dur-feedback) var(--ease), background-color var(--dur-feedback) var(--ease);
 }
 
 select {

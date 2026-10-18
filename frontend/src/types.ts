@@ -163,4 +163,8 @@ export const COMPARISON_ALGORITHMS = [
 export type ComparisonAlgorithm = (typeof COMPARISON_ALGORITHMS)[number];
 
 /** "hill_climbing" -> "hill climbing" */
-export const label = (value: string) => value.split('_').join(' ');
+/** Sentence case, as the HIG asks of labels: "hill_climbing" reads "Hill climbing". */
+export const label = (value: string) => {
+  const words = value.split('_').join(' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+};
