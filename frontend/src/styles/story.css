@@ -1,0 +1,354 @@
+/* Scrollytelling view, on the glass material. */
+.view-switch {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 60;
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  max-width: calc(100vw - 32px);
+  backdrop-filter: blur(var(--blur-strong)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(180%);
+}
+
+.view-switch button {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--ink-2);
+  min-height: var(--hit-compact);
+  padding: 0 16px;
+  font-size: var(--t-footnote);
+}
+
+.view-switch button:hover:not(:disabled) { box-shadow: none; color: var(--ink); }
+
+.view-switch button.active {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+
+.theme-toggle { min-width: 62px; }
+
+.story { max-width: none; padding: 0; }
+
+.story-hero {
+  min-height: 94vh;
+  display: grid;
+  align-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.story-hero h1 { font-size: clamp(42px, 7vw, 86px); margin: 12px 0 22px; }
+
+.story-hero h1 i {
+  font-style: normal;
+  background: linear-gradient(115deg, var(--accent), var(--swarm));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.story-hero .lede { max-width: 60ch; font-size: 19px; }
+
+.scroll-cue {
+  margin-top: 46px;
+  font: 500 var(--t-footnote) var(--font);
+  color: var(--ink-3);
+  /* A hint, not an ornament: it nudges three times once the reader has had a moment
+     with the headline, then rests. */
+  animation: bob 1.4s var(--ease) 1.2s 3;
+}
+
+@keyframes bob {
+0%, 100% { transform: translateY(0); }
+
+50% { transform: translateY(5px); }
+}
+
+.story-loading {
+  min-height: 82vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.story-loading p { color: var(--ink-2); }
+
+/* An indeterminate activity indicator: the wait has no measurable progress. */
+.spinner {
+  justify-self: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--glass-sunken);
+  border-top-color: var(--accent);
+  animation: spin .9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(1turn); } }
+
+/* --- a scrubbed scene ------------------------------------------------------------- */
+.scene { position: relative; }
+
+.scene-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: 56px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.scene-copy h2 { margin: 8px 0 18px; }
+
+.scene-copy p { color: var(--ink-2); font-size: 16px; max-width: 46ch; }
+
+.scene-rail {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--glass-sunken);
+  border: 1px solid var(--edge);
+  margin-top: 28px;
+  overflow: hidden;
+}
+
+.scene-rail span {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--accent), var(--swarm));
+}
+
+.scene-stage {
+  --tint: var(--accent);
+  padding: 18px;
+  max-height: 88vh;
+  overflow: auto;
+  border-top-color: color-mix(in oklab, var(--tint) 30%, var(--edge));
+}
+
+.scene-metrics, .scene-readout, .counter-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.scene-metrics { margin-bottom: 12px; }
+
+.scene-metrics > div, .scene-readout > div, .counter-facts > div {
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  background: var(--glass-sunken);
+  border: 1px solid var(--edge);
+}
+
+.scene-metrics span, .scene-readout span, .counter-facts span {
+  display: block; font-size: 11px; color: var(--ink-3);
+}
+
+.scene-metrics b, .scene-readout b, .counter-facts b {
+  display: block; font-size: 18px; font-weight: 500; margin-top: 3px;
+}
+
+.scene-readout { margin-top: 12px; }
+
+.scene-event {
+  margin: 12px 0 0;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  border-left: 3px solid var(--tint);
+  background: var(--glass-sunken);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.counter-stage { display: grid; place-content: center; text-align: center; min-height: 340px; }
+
+.counter {
+  font-size: clamp(40px, 6vw, 74px);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.counter em {
+  font-style: normal;
+  margin-left: 12px;
+  background: linear-gradient(115deg, var(--accent), var(--swarm));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.counter sup { font-size: .5em; }
+
+.counter-caption {
+  margin-top: 14px;
+  font: 500 var(--t-footnote) var(--font);
+  color: var(--ink-3);
+}
+
+.counter-facts { margin-top: 30px; grid-template-columns: repeat(3, 1fr); }
+
+.scene-legend { display: grid; gap: 4px; margin-top: 16px; }
+
+.scene-legend > div {
+  display: grid;
+  grid-template-columns: 12px 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  background: var(--glass-sunken);
+  font-size: 13px;
+}
+
+.scene-legend i { width: 12px; height: 12px; border-radius: 4px; display: block; }
+
+.scene-legend b { font-size: 15px; font-weight: 500; }
+
+.scene-legend small { color: var(--ink-3); font-size: 11px; }
+
+.story-finale {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 22vh 28px 20vh;
+  text-align: center;
+}
+
+.story-finale h2 { margin: 10px 0 16px; }
+
+.story-finale p { color: var(--ink-2); font-size: 17px; margin-bottom: 32px; }
+
+.story-finale button { min-height: 50px; padding: 0 30px; font-size: var(--t-body); }
+
+/* --- week grid -------------------------------------------------------------------- */
+.week-grid { display: grid; gap: 4px; }
+
+.week-corner, .week-day, .week-period {
+  font: 600 var(--t-caption2) var(--font);
+  color: var(--ink-3);
+  padding: 6px 4px;
+}
+
+.week-day { text-align: center; color: var(--accent); }
+
+.week-cell {
+  min-height: 44px;
+  padding: 4px;
+  border-radius: var(--r-sm);
+  background: var(--glass-sunken);
+  border: 1px solid var(--edge);
+  display: grid;
+  align-content: start;
+  gap: 3px;
+}
+
+.chip {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  padding: 5px 7px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: color-mix(in oklab, var(--tint, var(--accent)) 24%, transparent);
+  color: var(--ink);
+  display: grid;
+  justify-content: stretch;
+  gap: 1px;
+  min-height: 0;
+  cursor: default;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  font-family: var(--font);
+}
+
+.chip:hover:not(:disabled) { box-shadow: none; }
+
+.chip b, .chip small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.chip b { font-size: var(--t-caption2); font-weight: 600; }
+
+.chip small { font-size: var(--t-caption2); color: var(--ink-2); }
+
+.chip.selected { outline: 2px solid var(--genetic); outline-offset: 1px; }
+
+/* Clashes are marked by a badge and a dashed edge, never by colour alone. */
+.chip.clash {
+  background: color-mix(in oklab, var(--bad) 24%, transparent);
+  border-color: var(--bad);
+  border-style: dashed;
+}
+
+.clash-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bad);
+  color: #fff;
+  font: 700 var(--t-caption2)/16px var(--font);
+  text-align: center;
+}
+
+/* On a narrow screen copy and stage cannot share one viewport without cutting the
+   copy short. The copy is read first in normal flow, then the stage pins and scrubs.
+   The wrapper drops out of layout so the stage sticks against the whole tall section,
+   not against a wrapper only as tall as itself. */
+@media (max-width: 940px) {
+.scene-sticky { display: contents; }
+
+.scene-copy { padding: 18vh 20px 32px; }
+
+.scene-visual {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    align-content: center;
+    padding: 64px 16px 16px;
+  }
+
+.scene-stage { max-height: calc(100vh - 80px); padding: 14px; }
+}
+
+/* Five day columns on a phone leave each cell about 55px: tighten the chip rather than
+   let a session id break across lines at its hyphen. */
+@media (max-width: 520px) {
+.week-grid { grid-template-columns: 40px repeat(var(--days), minmax(0, 1fr)) !important; gap: 3px; }
+
+.week-cell { padding: 3px; }
+
+.chip { padding: 4px; }
+}
+
+/* Scroll-linked movement is what this preference asks us to avoid: collapse the
+   scenes to their natural height and render the final state instead. */
+@media (prefers-reduced-motion: reduce) {
+  .scene, .scene-static { height: auto !important; }
+  .scene-sticky, .scene-static .scene-sticky {
+    position: static;
+    height: auto;
+    padding: 72px 28px;
+  }
+  .scene-visual { position: static; height: auto; padding: 0; }
+  .scene-stage { max-height: none; }
+  .story-hero { min-height: auto; padding: 90px 28px; }
+}
+
