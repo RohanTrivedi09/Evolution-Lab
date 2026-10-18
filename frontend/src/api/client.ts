@@ -1,6 +1,7 @@
 import type { Comparison, Dataset, Experiment, Run, Schedule, Score } from '../types';
 
-export const API = 'http://localhost:8000/api';
+/** Set at build time for a deployment; `||` so an empty variable still falls back. */
+export const API = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API}${path}`, init);
