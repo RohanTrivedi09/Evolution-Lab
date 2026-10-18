@@ -131,7 +131,12 @@ class RunManager:
         The equal budget is the whole point: comparing algorithms that were allowed
         different numbers of fitness evaluations measures the budget, not the algorithm.
         """
-        budget = request.max_evaluations or DEFAULT_BUDGET
+        # A budget in `parameters` counts too, as it does for single runs - the Lab sends
+        # it there. The per-strategy iteration translations do not: they would hand each
+        # strategy a different budget.
+        budget = (request.max_evaluations
+                  or int(request.parameters.get("max_evaluations") or 0)
+                  or DEFAULT_BUDGET)
         comparison_id = uuid.uuid4().hex
         run_ids = [self.create_run(request.model_copy(update={"algorithm": name}), budget)["run_id"]
                    for name in COMPARISON_STRATEGIES]
